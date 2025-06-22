@@ -1,0 +1,442 @@
+[
+  {
+    "operation": "AddAlert",
+    "method": "POST",
+    "path": "/api/v1/alert/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/AddAlert.cs"
+  },
+  {
+    "operation": "GetAlertById",
+    "method": "GET",
+    "path": "/api/v1/alert/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/GetAlertById.cs"
+  },
+  {
+    "operation": "GetAlertCounters",
+    "method": "GET",
+    "path": "/api/v1/alert/get-counters",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/GetAlertCounters.cs"
+  },
+  {
+    "operation": "GetAvailableTemplateVars",
+    "method": "GET",
+    "path": "/api/v1/alert/template-vars",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/GetAvailableTemplateVars.cs"
+  },
+  {
+    "operation": "MuteAlert",
+    "method": "POST",
+    "path": "/api/v1/alert/mute/{alertId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/MuteAlert.cs"
+  },
+  {
+    "operation": "RemoveAlert",
+    "method": "DELETE",
+    "path": "/api/v1/alert/remove/{alertId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/RemoveAlert.cs"
+  },
+  {
+    "operation": "SearchAlerts",
+    "method": "POST",
+    "path": "/api/v1/alert/search",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/SearchAlerts.cs"
+  },
+  {
+    "operation": "UpdateAlert",
+    "method": "PUT",
+    "path": "/api/v1/alert/update/{alertId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Alerts/UpdateAlert.cs"
+  },
+  {
+    "operation": "AddDashboard",
+    "method": "POST",
+    "path": "/api/v1/dashboard/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Dashboards/AddDashboard.cs"
+  },
+  {
+    "operation": "GetDashboardById",
+    "method": "GET",
+    "path": "/api/v1/dashboard/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Dashboards/GetDashboardById.cs"
+  },
+  {
+    "operation": "GetFullDashboardInfo",
+    "method": "GET",
+    "path": "/api/v1/dashboard/{id}/full",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Dashboards/GetFullDashboardInfo.cs"
+  },
+  {
+    "operation": "RemoveDashboard",
+    "method": "DELETE",
+    "path": "/api/v1/dashboard/remove/{dashboardId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Dashboards/RemoveDashboard.cs"
+  },
+  {
+    "operation": "SearchDashboards",
+    "method": "POST",
+    "path": "/api/v1/dashboard/search",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Dashboards/SearchDashboards.cs"
+  },
+  {
+    "operation": "UpdateDashboard",
+    "method": "PUT",
+    "path": "/api/v1/dashboard/update/{dashboardId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Dashboards/UpdateDashboard.cs"
+  },
+  {
+    "operation": "AddDataSourceType",
+    "method": "POST",
+    "path": "/api/v1/data-source-type/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSourceTypes/AddDataSourceType.cs"
+  },
+  {
+    "operation": "GetAllDataSources",
+    "method": "GET",
+    "path": "/api/v1/data-source-type/get-all",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSourceTypes/GetAllDataSources.cs"
+  },
+  {
+    "operation": "GetDataSourceTypeByName",
+    "method": "GET",
+    "path": "/api/v1/data-source-type/{name}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSourceTypes/GetDataSourceTypeByName.cs"
+  },
+  {
+    "operation": "RemoveDataSourceType",
+    "method": "DELETE",
+    "path": "/api/v1/datasource/remove/{name}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSourceTypes/RemoveDataSourceType.cs"
+  },
+  {
+    "operation": "AddDataSource",
+    "method": "POST",
+    "path": "/api/v1/data-source/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSources/AddDataSource.cs"
+  },
+  {
+    "operation": "GetDataSourceById",
+    "method": "GET",
+    "path": "/api/v1/data-source/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSources/GetDataSourceById.cs"
+  },
+  {
+    "operation": "RemoveDataSource",
+    "method": "DELETE",
+    "path": "/api/v1/data-source/remove/{dataSourceId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSources/RemoveDataSource.cs"
+  },
+  {
+    "operation": "SearchDataSources",
+    "method": "POST",
+    "path": "/api/v1/data-source/search",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSources/SearchDataSources.cs"
+  },
+  {
+    "operation": "UpdateDataSource",
+    "method": "PUT",
+    "path": "/api/v1/data-source/update-connection-string/{dataSourceId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/DataSources/UpdateDataSource.cs"
+  },
+  {
+    "operation": "RollbackMigrations",
+    "method": "DELETE",
+    "path": "/api/v1/debug/rollback/{steps}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Debug/RollbackMigrations.cs"
+  },
+  {
+    "operation": "AddExternalRoleMapping",
+    "method": "POST",
+    "path": "/api/v1/external-role",
+    "source": "components/server/DataCat.Server.Api/Endpoints/ExternalRoleMapping/AddExternalRoleMapping.cs"
+  },
+  {
+    "operation": "SearchLogs",
+    "method": "POST",
+    "path": "/api/v1/logs/search",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Logs/SearchLogs.cs"
+  },
+  {
+    "operation": "GetDatabaseScheme",
+    "method": "GET",
+    "path": "/api/v1/meta/database-schema",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Meta/GetDatabaseScheme.cs"
+  },
+  {
+    "operation": "GetSqlQueries",
+    "method": "GET",
+    "path": "/api/v1/meta/sql-queries",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Meta/GetSqlQueries.cs"
+  },
+  {
+    "operation": "GetLatestMetric",
+    "method": "GET",
+    "path": "/latest",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Metrics/GetLatestMetric.cs",
+    "status": "inactive-in-legacy"
+  },
+  {
+    "operation": "GetMetricSeries",
+    "method": "POST",
+    "path": "/series",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Metrics/GetMetricSeries.cs",
+    "status": "inactive-in-legacy"
+  },
+  {
+    "operation": "SearchMetrics",
+    "method": "GET",
+    "path": "/api/v1/metrics/query",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Metrics/SearchMetrics.cs"
+  },
+  {
+    "operation": "SearchMetrics",
+    "method": "GET",
+    "path": "/api/v1/metrics/query-range",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Metrics/SearchMetrics.cs"
+  },
+  {
+    "operation": "AddNamespace",
+    "method": "POST",
+    "path": "/api/v1/namespace",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Namespaces/AddNamespace.cs"
+  },
+  {
+    "operation": "GetAvailableNamespaces",
+    "method": "GET",
+    "path": "/api/v1/namespace/get-available",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Namespaces/GetAvailableNamespaces.cs"
+  },
+  {
+    "operation": "GetByName",
+    "method": "GET",
+    "path": "/api/v1/namespace/{name}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Namespaces/GetByName.cs"
+  },
+  {
+    "operation": "AddNotificationChannelGroup",
+    "method": "POST",
+    "path": "/api/v1/notification-channel-group/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannelGroups/AddNotificationChannelGroup.cs"
+  },
+  {
+    "operation": "GetAllNotificationChannelGroups",
+    "method": "GET",
+    "path": "/api/v1/notification-channel-group/get-all",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannelGroups/GetAllNotificationChannelGroups.cs"
+  },
+  {
+    "operation": "GetNotificationChannelGroupById",
+    "method": "GET",
+    "path": "/api/v1/notification-channel-group/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannelGroups/GetNotificationChannelGroupById.cs"
+  },
+  {
+    "operation": "AddNotificationChannel",
+    "method": "POST",
+    "path": "/api/v1/notification-channel/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannels/AddNotificationChannel.cs"
+  },
+  {
+    "operation": "GetNotificationChannelById",
+    "method": "GET",
+    "path": "/api/v1/notification-channel/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannels/GetNotificationChannelById.cs"
+  },
+  {
+    "operation": "RemoveNotificationChannel",
+    "method": "DELETE",
+    "path": "/api/v1/notification-channel/remove/{notificationChannelId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannels/RemoveNotificationChannel.cs"
+  },
+  {
+    "operation": "UpdateNotificationChannel",
+    "method": "PUT",
+    "path": "/api/v1/notification-channel/{notificationChannelId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationChannels/UpdateNotificationChannel.cs"
+  },
+  {
+    "operation": "AddNotificationDestination",
+    "method": "POST",
+    "path": "/api/v1/notification-destination/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationDestinations/AddNotificationDestination.cs"
+  },
+  {
+    "operation": "GetNotificationDestinationByName",
+    "method": "GET",
+    "path": "/api/v1/notification-destination/{name}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationDestinations/GetNotificationDestinationByName.cs"
+  },
+  {
+    "operation": "RemoveNotificationDestination",
+    "method": "DELETE",
+    "path": "/api/v1/notification-destination/remove/{name}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/NotificationDestinations/RemoveNotificationDestination.cs"
+  },
+  {
+    "operation": "AddPanel",
+    "method": "POST",
+    "path": "/api/v1/panel/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Panels/AddPanel.cs"
+  },
+  {
+    "operation": "GetPanelById",
+    "method": "GET",
+    "path": "/api/v1/panel/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Panels/GetPanelById.cs"
+  },
+  {
+    "operation": "GetPanelTypes",
+    "method": "GET",
+    "path": "/api/v1/panel/types",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Panels/GetPanelTypes.cs"
+  },
+  {
+    "operation": "RemovePanel",
+    "method": "DELETE",
+    "path": "/api/v1/panel/remove/{panelId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Panels/RemovePanel.cs"
+  },
+  {
+    "operation": "UpdatePanel",
+    "method": "PUT",
+    "path": "/api/v1/panel/update/{panelId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Panels/UpdatePanel.cs"
+  },
+  {
+    "operation": "AddPlugin",
+    "method": "POST",
+    "path": "/api/v1/plugin/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Plugins/AddPlugin.cs"
+  },
+  {
+    "operation": "GetPluginById",
+    "method": "GET",
+    "path": "/api/v1/plugin/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Plugins/GetPluginById.cs"
+  },
+  {
+    "operation": "RemovePlugin",
+    "method": "DELETE",
+    "path": "/api/v1/plugin/remove/{pluginId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Plugins/RemovePlugin.cs"
+  },
+  {
+    "operation": "SearchPlugins",
+    "method": "GET",
+    "path": "/api/v1/plugin/search",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Plugins/SearchPlugins.cs"
+  },
+  {
+    "operation": "TogglePluginStatus",
+    "method": "POST",
+    "path": "/api/v1/plugin/{pluginId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Plugins/TogglePluginStatus.cs"
+  },
+  {
+    "operation": "UpdatePlugin",
+    "method": "PUT",
+    "path": "/api/v1/plugin/update/{pluginId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Plugins/UpdatePlugin.cs"
+  },
+  {
+    "operation": "AddSecret",
+    "method": "POST",
+    "path": "/api/v1/secret/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Secrets/AddSecret.cs"
+  },
+  {
+    "operation": "DeleteSecret",
+    "method": "DELETE",
+    "path": "/api/v1/secret/remove/{key}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Secrets/DeleteSecret.cs"
+  },
+  {
+    "operation": "GetSecret",
+    "method": "GET",
+    "path": "/api/v1/secret/{key}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Secrets/GetSecret.cs"
+  },
+  {
+    "operation": "GetOperations",
+    "method": "GET",
+    "path": "/api/v1/traces/operations",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Traces/GetOperations.cs"
+  },
+  {
+    "operation": "GetServices",
+    "method": "GET",
+    "path": "/api/v1/traces/services",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Traces/GetServices.cs"
+  },
+  {
+    "operation": "GetTrace",
+    "method": "GET",
+    "path": "/api/v1/traces/{traceId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Traces/GetTrace.cs"
+  },
+  {
+    "operation": "SearchTraces",
+    "method": "POST",
+    "path": "/api/v1/traces/search",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Traces/SearchTraces.cs"
+  },
+  {
+    "operation": "GetMe",
+    "method": "GET",
+    "path": "/api/v1/user/get-me",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Users/GetMe.cs"
+  },
+  {
+    "operation": "LoginUserByPassword",
+    "method": "POST",
+    "path": "/api/v1/user/login",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Users/LoginUserByPassword.cs"
+  },
+  {
+    "operation": "LoginUserCodeFlow",
+    "method": "GET",
+    "path": "/api/v1/user/login-code-flow",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Users/LoginUserCodeFlow.cs"
+  },
+  {
+    "operation": "OidcCallback",
+    "method": "GET",
+    "path": "/api/v1/user/callback",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Users/OidcCallback.cs"
+  },
+  {
+    "operation": "AddVariable",
+    "method": "POST",
+    "path": "/api/v1/variable/add",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Variables/AddVariable.cs"
+  },
+  {
+    "operation": "GetVariableById",
+    "method": "GET",
+    "path": "/api/v1/variable/{id}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Variables/GetVariableById.cs"
+  },
+  {
+    "operation": "GetVariablesByDashboard",
+    "method": "GET",
+    "path": "/api/v1/variables/dashboard/{dashboardId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Variables/GetVariablesByDashboard.cs"
+  },
+  {
+    "operation": "GetVariablesByNamespace",
+    "method": "GET",
+    "path": "/api/v1/variables/namespace/{namespaceId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Variables/GetVariablesByNamespace.cs"
+  },
+  {
+    "operation": "RemoveVariable",
+    "method": "DELETE",
+    "path": "/api/v1/variable/remove/{variableId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Variables/RemoveVariable.cs"
+  },
+  {
+    "operation": "UpdateVariable",
+    "method": "PUT",
+    "path": "/api/v1/variable/update/{variableId}",
+    "source": "components/server/DataCat.Server.Api/Endpoints/Variables/UpdateVariable.cs"
+  }
+]
