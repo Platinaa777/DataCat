@@ -1,0 +1,63 @@
+{
+  "realm": "datacat",
+  "enabled": true,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      {
+        "name": "datacat-admin"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "datacat",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://localhost:4200/api/v1/user/callback",
+        "http://localhost:14200/api/v1/user/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:4200",
+        "http://localhost:14200"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "protocolMappers": [
+        {
+          "name": "datacat-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "datacat",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "developer",
+      "enabled": true,
+      "email": "developer@example.test",
+      "emailVerified": true,
+      "firstName": "Local",
+      "lastName": "Developer",
+      "realmRoles": [
+        "datacat-admin"
+      ],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "local-development-only",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
