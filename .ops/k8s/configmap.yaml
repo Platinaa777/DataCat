@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: datacat
+data:
+  APP_ENV: production
+  HTTP_ADDR: ":8080"
+  GRPC_ADDR: ":4317"
+  OIDC_ISSUER: https://identity.example.com/realms/datacat
+  OIDC_CLIENT_ID: datacat
+  OIDC_REDIRECT_URL: https://datacat.example.com/api/v1/user/callback
+  PUBLIC_URL: https://datacat.example.com
+  ALLOWED_ORIGIN: https://datacat.example.com
+  OUTBOUND_ALLOWED_HOSTS: prometheus.monitoring.svc:9090,elasticsearch.monitoring.svc:9200,jaeger-query.monitoring.svc:16686,api.telegram.org
