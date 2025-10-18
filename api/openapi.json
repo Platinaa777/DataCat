@@ -1,0 +1,5731 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DataCat API",
+    "version": "1.0"
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "cookieAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/variable/add": {
+      "post": {
+        "operationId": "postApiV1VariableAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddVariableRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/variable/{id}": {
+      "get": {
+        "operationId": "getApiV1Variable",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariableResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/variables/dashboard/{dashboardId}": {
+      "get": {
+        "operationId": "getApiV1VariablesDashboard",
+        "parameters": [
+          {
+            "name": "dashboardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VariableResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/variables/namespace/{namespaceId}": {
+      "get": {
+        "operationId": "getApiV1VariablesNamespace",
+        "parameters": [
+          {
+            "name": "namespaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VariableResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/variable/remove/{variableId}": {
+      "delete": {
+        "operationId": "deleteApiV1VariableRemove",
+        "parameters": [
+          {
+            "name": "variableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/variable/update/{variableId}": {
+      "put": {
+        "operationId": "putApiV1VariableUpdate",
+        "parameters": [
+          {
+            "name": "variableId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVariableRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/get-me": {
+      "get": {
+        "operationId": "getApiV1UserGetMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/user/login": {
+      "post": {
+        "operationId": "postApiV1UserLogin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/user/login-code-flow": {
+      "get": {
+        "operationId": "getApiV1UserLoginCodeFlow",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          },
+          "302": {
+            "description": "Continue login in the browser"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/user/callback": {
+      "get": {
+        "operationId": "getApiV1UserCallback",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          },
+          "302": {
+            "description": "Continue login in the browser"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/traces/operations": {
+      "get": {
+        "operationId": "getApiV1TracesOperations",
+        "parameters": [
+          {
+            "name": "dataSourceName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "serviceName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/traces/services": {
+      "get": {
+        "operationId": "getApiV1TracesServices",
+        "parameters": [
+          {
+            "name": "dataSourceName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/traces/{traceId}": {
+      "get": {
+        "operationId": "getApiV1Traces",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataSourceName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/traces/search": {
+      "post": {
+        "operationId": "postApiV1TracesSearch",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TraceEntry"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchTracesRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/secret/add": {
+      "post": {
+        "operationId": "postApiV1SecretAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecretModel"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/secret/remove/{key}": {
+      "delete": {
+        "operationId": "deleteApiV1SecretRemove",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/secret/{key}": {
+      "get": {
+        "operationId": "getApiV1Secret",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/add": {
+      "post": {
+        "operationId": "postApiV1PluginAdd",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPluginRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/{id}": {
+      "get": {
+        "operationId": "getApiV1Plugin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPluginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/remove/{pluginId}": {
+      "delete": {
+        "operationId": "deleteApiV1PluginRemove",
+        "parameters": [
+          {
+            "name": "pluginId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/search": {
+      "get": {
+        "operationId": "getApiV1PluginSearch",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageOfSearchPluginsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchFilters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/{pluginId}": {
+      "post": {
+        "operationId": "postApiV1Plugin",
+        "parameters": [
+          {
+            "name": "pluginId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/plugin/update/{pluginId}": {
+      "put": {
+        "operationId": "putApiV1PluginUpdate",
+        "parameters": [
+          {
+            "name": "pluginId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePluginRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/panel/add": {
+      "post": {
+        "operationId": "postApiV1PanelAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPanelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/panel/{id}": {
+      "get": {
+        "operationId": "getApiV1Panel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPanelResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/panel/types": {
+      "get": {
+        "operationId": "getApiV1PanelTypes",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPanelTypesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/panel/remove/{panelId}": {
+      "delete": {
+        "operationId": "deleteApiV1PanelRemove",
+        "parameters": [
+          {
+            "name": "panelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/panel/update/{panelId}": {
+      "put": {
+        "operationId": "putApiV1PanelUpdate",
+        "parameters": [
+          {
+            "name": "panelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePanelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification-destination/add": {
+      "post": {
+        "operationId": "postApiV1NotificationDestinationAdd",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNotificationDestinationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification-destination/{name}": {
+      "get": {
+        "operationId": "getApiV1NotificationDestination",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNotificationDestinationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/notification-destination/remove/{name}": {
+      "delete": {
+        "operationId": "deleteApiV1NotificationDestinationRemove",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel/add": {
+      "post": {
+        "operationId": "postApiV1NotificationChannelAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNotificationChannelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel/{id}": {
+      "get": {
+        "operationId": "getApiV1NotificationChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationChannelResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel/remove/{notificationChannelId}": {
+      "delete": {
+        "operationId": "deleteApiV1NotificationChannelRemove",
+        "parameters": [
+          {
+            "name": "notificationChannelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel/{notificationChannelId}": {
+      "put": {
+        "operationId": "putApiV1NotificationChannel",
+        "parameters": [
+          {
+            "name": "notificationChannelId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNotificationChannelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel-group/add": {
+      "post": {
+        "operationId": "postApiV1NotificationChannelGroupAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNotificationChannelGroupRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel-group/get-all": {
+      "get": {
+        "operationId": "getApiV1NotificationChannelGroupGetAll",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationChannelGroupResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/notification-channel-group/{id}": {
+      "get": {
+        "operationId": "getApiV1NotificationChannelGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationChannelGroupResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/namespace": {
+      "post": {
+        "operationId": "postApiV1Namespace",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNamespaceRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/namespace/get-available": {
+      "get": {
+        "operationId": "getApiV1NamespaceGetAvailable",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAvailableNamespaceResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/namespace/{name}": {
+      "get": {
+        "operationId": "getApiV1Namespace",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NamespaceByNameResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/metrics/query": {
+      "get": {
+        "operationId": "getApiV1MetricsQuery",
+        "parameters": [
+          {
+            "name": "DataSourceName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NamespaceId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DashboardId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "From",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "To",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Step",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MetricPoint"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/metrics/query-range": {
+      "get": {
+        "operationId": "getApiV1MetricsQueryRange",
+        "parameters": [
+          {
+            "name": "DataSourceName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NamespaceId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DashboardId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "From",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "To",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Step",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TimeSeries"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/meta/database-schema": {
+      "get": {
+        "operationId": "getApiV1MetaDatabaseSchema",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "schema": {
+                        "type": "string"
+                      },
+                      "tables": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/meta/sql-queries": {
+      "get": {
+        "operationId": "getApiV1MetaSqlQueries",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/logs/search": {
+      "post": {
+        "operationId": "postApiV1LogsSearch",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageOfLogEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchLogsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/external-role": {
+      "post": {
+        "operationId": "postApiV1ExternalRole",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExternalRoleMappingRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/debug/rollback/{steps}": {
+      "delete": {
+        "operationId": "deleteApiV1DebugRollback",
+        "parameters": [
+          {
+            "name": "steps",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/data-source-type/add": {
+      "post": {
+        "operationId": "postApiV1DataSourceTypeAdd",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDataSourceTypeRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data-source-type/get-all": {
+      "get": {
+        "operationId": "getApiV1DataSourceTypeGetAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetDataSourceTypeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/data-source-type/{name}": {
+      "get": {
+        "operationId": "getApiV1DataSourceType",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDataSourceTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/datasource/remove/{name}": {
+      "delete": {
+        "operationId": "deleteApiV1DatasourceRemove",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/data-source/add": {
+      "post": {
+        "operationId": "postApiV1DataSourceAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDataSourceRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data-source/{id}": {
+      "get": {
+        "operationId": "getApiV1DataSource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDataSourceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/data-source/remove/{dataSourceId}": {
+      "delete": {
+        "operationId": "deleteApiV1DataSourceRemove",
+        "parameters": [
+          {
+            "name": "dataSourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/data-source/search": {
+      "post": {
+        "operationId": "postApiV1DataSourceSearch",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageOfSearchDataSourcesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchFilters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data-source/update-connection-string/{dataSourceId}": {
+      "put": {
+        "operationId": "putApiV1DataSourceUpdateConnectionString",
+        "parameters": [
+          {
+            "name": "dataSourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDataSourceRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/add": {
+      "post": {
+        "operationId": "postApiV1DashboardAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDashboardRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/{id}": {
+      "get": {
+        "operationId": "getApiV1Dashboard",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/{id}/full": {
+      "get": {
+        "operationId": "getApiV1DashboardFull",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFullInfoDashboardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/remove/{dashboardId}": {
+      "delete": {
+        "operationId": "deleteApiV1DashboardRemove",
+        "parameters": [
+          {
+            "name": "dashboardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/search": {
+      "post": {
+        "operationId": "postApiV1DashboardSearch",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageOfSearchDashboardsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchFilters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/update/{dashboardId}": {
+      "put": {
+        "operationId": "putApiV1DashboardUpdate",
+        "parameters": [
+          {
+            "name": "dashboardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDashboardRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alert/add": {
+      "post": {
+        "operationId": "postApiV1AlertAdd",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAlertRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alert/{id}": {
+      "get": {
+        "operationId": "getApiV1Alert",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAlertResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/alert/get-counters": {
+      "get": {
+        "operationId": "getApiV1AlertGetCounters",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertCounterResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/alert/template-vars": {
+      "get": {
+        "operationId": "getApiV1AlertTemplateVars",
+        "parameters": [
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/alert/mute/{alertId}": {
+      "post": {
+        "operationId": "postApiV1AlertMute",
+        "parameters": [
+          {
+            "name": "alertId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nextExecutionTime",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/alert/remove/{alertId}": {
+      "delete": {
+        "operationId": "deleteApiV1AlertRemove",
+        "parameters": [
+          {
+            "name": "alertId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        }
+      }
+    },
+    "/api/v1/alert/search": {
+      "post": {
+        "operationId": "postApiV1AlertSearch",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageOfSearchAlertsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchFilters"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alert/update/{alertId}": {
+      "put": {
+        "operationId": "putApiV1AlertUpdate",
+        "parameters": [
+          {
+            "name": "alertId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Namespace",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Request failed"
+          },
+          "401": {
+            "description": "Request failed"
+          },
+          "403": {
+            "description": "Request failed"
+          },
+          "404": {
+            "description": "Request failed"
+          },
+          "409": {
+            "description": "Request failed"
+          },
+          "429": {
+            "description": "Request failed"
+          },
+          "500": {
+            "description": "Request failed"
+          },
+          "502": {
+            "description": "Request failed"
+          },
+          "504": {
+            "description": "Request failed"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAlertRequest"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "access_token"
+      }
+    },
+    "schemas": {
+      "CustomProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "number"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "AddVariableRequest": {
+        "type": "object",
+        "properties": {
+          "placeholder": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "dashboardId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "placeholder",
+          "value"
+        ]
+      },
+      "VariableResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "dashboardId": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateVariableRequest": {
+        "type": "object",
+        "properties": {
+          "placeholder": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMeResponse": {
+        "type": "object",
+        "properties": {
+          "isGlobalAdmin": {
+            "type": "boolean"
+          },
+          "identityId": {
+            "type": "string"
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserClaim"
+            }
+          }
+        }
+      },
+      "UserClaim": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessTokenResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        }
+      },
+      "TraceEntry": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string"
+          },
+          "spans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpanEntry"
+            }
+          },
+          "processes": {}
+        }
+      },
+      "SpanEntry": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string"
+          },
+          "spanId": {
+            "type": "string"
+          },
+          "operationName": {
+            "type": "string"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "timestamp": {
+            "type": "number"
+          },
+          "duration": {
+            "type": "string"
+          },
+          "tags": {},
+          "references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpanReference"
+            }
+          },
+          "processId": {
+            "type": "string"
+          }
+        }
+      },
+      "SpanReference": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string"
+          },
+          "spanId": {
+            "type": "string"
+          },
+          "referenceType": {
+            "$ref": "#/components/schemas/SpanReferenceType"
+          }
+        }
+      },
+      "ProcessEntry": {
+        "type": "object",
+        "properties": {
+          "serviceName": {
+            "type": "string"
+          },
+          "tags": {}
+        }
+      },
+      "SearchTracesRequest": {
+        "type": "object",
+        "properties": {
+          "dataSourceName": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "minDuration": {
+            "type": "string"
+          },
+          "maxDuration": {
+            "type": "string"
+          },
+          "tags": {}
+        }
+      },
+      "SecretModel": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ]
+      },
+      "AddPluginRequest": {
+        "type": "object",
+        "properties": {
+          "endpoint": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "author",
+          "endpoint"
+        ]
+      },
+      "GetPluginResponse": {
+        "type": "object",
+        "properties": {
+          "pluginId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          }
+        }
+      },
+      "PageOfSearchPluginsResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchPluginsResponse"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          },
+          "pageNumber": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchPluginsResponse": {
+        "type": "object",
+        "properties": {
+          "pluginId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchFilters": {
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchFilter"
+            }
+          },
+          "sort": {
+            "$ref": "#/components/schemas/Sort"
+          }
+        }
+      },
+      "SearchFilter": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {},
+          "matchMode": {
+            "$ref": "#/components/schemas/MatchMode"
+          },
+          "fieldType": {
+            "$ref": "#/components/schemas/SearchFieldType"
+          }
+        }
+      },
+      "Sort": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string"
+          },
+          "sortOrder": {
+            "$ref": "#/components/schemas/SortOrder"
+          }
+        }
+      },
+      "UpdatePluginRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          }
+        }
+      },
+      "AddPanelRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "number"
+          },
+          "rawQuery": {
+            "type": "string"
+          },
+          "dataSourceId": {
+            "type": "string"
+          },
+          "layout": {
+            "type": "string"
+          },
+          "dashboardId": {
+            "type": "string"
+          },
+          "styleConfiguration": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "type",
+          "rawQuery",
+          "dataSourceId",
+          "layout",
+          "dashboardId"
+        ]
+      },
+      "GetPanelResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "typeName": {
+            "type": "string"
+          },
+          "query": {
+            "$ref": "#/components/schemas/RawQueryResponse"
+          },
+          "layout": {
+            "type": "string"
+          },
+          "dashboardId": {
+            "type": "string"
+          },
+          "styleConfiguration": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "RawQueryResponse": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "dataSource": {
+            "$ref": "#/components/schemas/DataSourceResponse"
+          }
+        }
+      },
+      "DataSourceResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "connectionString": {
+            "type": "string"
+          }
+        }
+      },
+      "GetPanelTypesResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdatePanelRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "number"
+          },
+          "rawQuery": {
+            "type": "string"
+          },
+          "dataSourceId": {
+            "type": "string"
+          },
+          "layout": {
+            "type": "string"
+          },
+          "styleConfiguration": {
+            "type": "string"
+          }
+        }
+      },
+      "AddNotificationDestinationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "GetNotificationDestinationResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AddNotificationChannelRequest": {
+        "type": "object",
+        "properties": {
+          "notificationChannelGroupName": {
+            "type": "string"
+          },
+          "destinationName": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          }
+        }
+      },
+      "NotificationChannelResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "destinationName": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateNotificationChannelRequest": {
+        "type": "object",
+        "properties": {
+          "destinationName": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          }
+        }
+      },
+      "AddNotificationChannelGroupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "NotificationChannelGroupResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "notificationChannels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationChannelResponse"
+            }
+          },
+          "namespaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "AddNamespaceRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAvailableNamespaceResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "NamespaceByNameResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "dashboards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DashboardResponse"
+            }
+          }
+        }
+      },
+      "DashboardResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MetricPoint": {
+        "type": "object",
+        "properties": {
+          "metricName": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "labels": {}
+        }
+      },
+      "TimeSeries": {
+        "type": "object",
+        "properties": {
+          "metricName": {
+            "type": "string"
+          },
+          "labels": {},
+          "points": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricPoint"
+            }
+          }
+        }
+      },
+      "SchemaResponse": {
+        "type": "object",
+        "properties": {
+          "migration": {
+            "type": "string"
+          },
+          "upSql": {},
+          "downSql": {}
+        }
+      },
+      "PageOfLogEntry": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogEntry"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          },
+          "pageNumber": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "LogEntry": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "additionalFields": {}
+        }
+      },
+      "SearchLogsRequest": {
+        "type": "object",
+        "properties": {
+          "dataSourceName": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "customFilters": {},
+          "pageSize": {
+            "type": "number"
+          },
+          "page": {
+            "type": "number"
+          },
+          "sortField": {
+            "type": "string"
+          },
+          "sortAscending": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AddExternalRoleMappingRequest": {
+        "type": "object",
+        "properties": {
+          "externalRole": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "roleId": {
+            "type": "number"
+          }
+        }
+      },
+      "AddDataSourceTypeRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "GetDataSourceTypeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AddDataSourceRequest": {
+        "type": "object",
+        "properties": {
+          "uniqueName": {
+            "type": "string"
+          },
+          "dataSourceType": {
+            "type": "string"
+          },
+          "connectionString": {
+            "type": "string"
+          },
+          "purpose": {
+            "$ref": "#/components/schemas/DataSourceKind"
+          }
+        },
+        "required": [
+          "uniqueName",
+          "dataSourceType",
+          "connectionString",
+          "purpose"
+        ]
+      },
+      "GetDataSourceResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "connectionString": {
+            "type": "string"
+          }
+        }
+      },
+      "PageOfSearchDataSourcesResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchDataSourcesResponse"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          },
+          "pageNumber": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchDataSourcesResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "connectionString": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateDataSourceRequest": {
+        "type": "object",
+        "properties": {
+          "connectionString": {
+            "type": "string"
+          }
+        }
+      },
+      "AddDashboardRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "GetFullInfoDashboardResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "panels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchDashboardsPanelDetailsResponse"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchDashboardsPanelDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "panelType": {
+            "type": "string"
+          },
+          "query": {
+            "type": "string"
+          },
+          "layout": {
+            "type": "string"
+          }
+        }
+      },
+      "PageOfSearchDashboardsResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchDashboardsResponse"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          },
+          "pageNumber": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchDashboardsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "namespaceId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateDashboardRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "AddAlertRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "rawQuery": {
+            "type": "string"
+          },
+          "dataSourceId": {
+            "type": "string"
+          },
+          "notificationChannelGroupName": {
+            "type": "string"
+          },
+          "waitTimeBeforeAlerting": {
+            "type": "string"
+          },
+          "repeatInterval": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "template",
+          "rawQuery",
+          "dataSourceId",
+          "notificationChannelGroupName",
+          "repeatInterval"
+        ]
+      },
+      "GetAlertResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "rawQuery": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "dataSource": {
+            "$ref": "#/components/schemas/DataSourceResponse"
+          },
+          "notificationChannelGroup": {
+            "$ref": "#/components/schemas/NotificationChannelGroupResponse"
+          },
+          "previousExecutionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nextExecutionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "waitTimeBeforeAlerting": {
+            "type": "string"
+          },
+          "repeatInterval": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "namespaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "AlertCounterResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          }
+        }
+      },
+      "PageOfSearchAlertsResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchAlertsResponse"
+            }
+          },
+          "totalCount": {
+            "type": "number"
+          },
+          "pageNumber": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchAlertsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "rawQuery": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "dataSource": {
+            "$ref": "#/components/schemas/DataSourceResponse"
+          },
+          "notificationChannelGroup": {
+            "$ref": "#/components/schemas/NotificationChannelGroupResponse"
+          },
+          "previousExecutionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nextExecutionTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "waitTimeBeforeAlerting": {
+            "type": "string"
+          },
+          "repeatInterval": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "namespaceId": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateAlertRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "rawQuery": {
+            "type": "string"
+          },
+          "dataSourceId": {
+            "type": "string"
+          }
+        }
+      },
+      "SpanReferenceType": {
+        "type": "string",
+        "enum": [
+          "childOf",
+          "followsFrom",
+          "other"
+        ]
+      },
+      "MatchMode": {
+        "type": "string",
+        "enum": [
+          "equals",
+          "startsWith",
+          "contains"
+        ]
+      },
+      "SearchFieldType": {
+        "type": "string",
+        "enum": [
+          "string",
+          "number",
+          "date",
+          "boolean",
+          "array"
+        ]
+      },
+      "SortOrder": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "DataSourceKind": {
+        "type": "string",
+        "enum": [
+          "metrics",
+          "logs",
+          "traces"
+        ]
+      }
+    }
+  }
+}
