@@ -2691,113 +2691,6 @@
         }
       }
     },
-    "/api/v1/meta/database-schema": {
-      "get": {
-        "operationId": "getApiV1MetaDatabaseSchema",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "schema": {
-                        "type": "string"
-                      },
-                      "tables": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Request failed"
-          },
-          "401": {
-            "description": "Request failed"
-          },
-          "403": {
-            "description": "Request failed"
-          },
-          "404": {
-            "description": "Request failed"
-          },
-          "409": {
-            "description": "Request failed"
-          },
-          "429": {
-            "description": "Request failed"
-          },
-          "500": {
-            "description": "Request failed"
-          },
-          "502": {
-            "description": "Request failed"
-          },
-          "504": {
-            "description": "Request failed"
-          }
-        }
-      }
-    },
-    "/api/v1/meta/sql-queries": {
-      "get": {
-        "operationId": "getApiV1MetaSqlQueries",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Request failed"
-          },
-          "401": {
-            "description": "Request failed"
-          },
-          "403": {
-            "description": "Request failed"
-          },
-          "404": {
-            "description": "Request failed"
-          },
-          "409": {
-            "description": "Request failed"
-          },
-          "429": {
-            "description": "Request failed"
-          },
-          "500": {
-            "description": "Request failed"
-          },
-          "502": {
-            "description": "Request failed"
-          },
-          "504": {
-            "description": "Request failed"
-          }
-        }
-      }
-    },
     "/api/v1/logs/search": {
       "post": {
         "operationId": "postApiV1LogsSearch",
@@ -2907,50 +2800,6 @@
                 "$ref": "#/components/schemas/AddExternalRoleMappingRequest"
               }
             }
-          }
-        }
-      }
-    },
-    "/api/v1/debug/rollback/{steps}": {
-      "delete": {
-        "operationId": "deleteApiV1DebugRollback",
-        "parameters": [
-          {
-            "name": "steps",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Request failed"
-          },
-          "401": {
-            "description": "Request failed"
-          },
-          "403": {
-            "description": "Request failed"
-          },
-          "404": {
-            "description": "Request failed"
-          },
-          "409": {
-            "description": "Request failed"
-          },
-          "429": {
-            "description": "Request failed"
-          },
-          "500": {
-            "description": "Request failed"
-          },
-          "502": {
-            "description": "Request failed"
-          },
-          "504": {
-            "description": "Request failed"
           }
         }
       }
@@ -4401,6 +4250,26 @@
           }
         }
       }
+    },
+    "/api/v1/notification-destination/get-all": {
+      "get": {
+        "operationId": "getApiV1NotificationDestinationGetAll",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetNotificationDestinationResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5109,16 +4978,6 @@
               "$ref": "#/components/schemas/MetricPoint"
             }
           }
-        }
-      },
-      "SchemaResponse": {
-        "type": "object",
-        "properties": {
-          "migration": {
-            "type": "string"
-          },
-          "upSql": {},
-          "downSql": {}
         }
       },
       "PageOfLogEntry": {

@@ -8,7 +8,6 @@ missing. It never reads `.env` implicitly; development scripts load that file.
 | `DATABASE_URL` | Required PostgreSQL connection string |
 | `SECRET_KEY` | Required base64-encoded 32-byte key |
 | `HTTP_ADDR` | `:8080` |
-| `GRPC_ADDR` | `:4317` |
 | `PUBLIC_URL` | `http://localhost:4200`; browser return URL |
 | `ALLOWED_ORIGIN` | `http://localhost:4200`; exact browser origin |
 | `OIDC_ISSUER` | Required outside explicit development token mode |
@@ -46,8 +45,8 @@ Alternatively, administrators can create external role mappings through
 assignments are preserved by identity subject. The server does not use a role
 from one namespace to authorize another.
 
-The browser uses a same-origin HttpOnly cookie. API clients and gRPC exporters
-use `Authorization: Bearer <token>`. gRPC also requires `x-namespace` metadata.
+The browser uses a same-origin HttpOnly cookie. API clients
+use `Authorization: Bearer <token>`.
 Terminate TLS at the deployment ingress and expose only the intended service
 ports. Password login is rate limited; Authorization Code login is the normal
 browser flow.

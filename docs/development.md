@@ -7,7 +7,7 @@ stack. Existing `.env` files are left unchanged by `scripts/init-env.sh`.
 ## Checks
 
 `make test` runs unit and contract tests. `make test-race` enables the race
-detector. `make test-integration` adds HTTP, worker, gRPC, and legacy database
+detector. `make test-integration` adds HTTP and worker
 scenarios. The integration database must end in `_test`; the tests replace its
 DataCat resources. Do not point this variable at application data.
 
@@ -32,7 +32,6 @@ Run the API against a separate database from the Go integration tests.
 ```sh
 # API environment overrides:
 HTTP_ADDR=:18080
-GRPC_ADDR=:14317
 PUBLIC_URL=http://localhost:14200
 ALLOWED_ORIGIN=http://localhost:14200
 OIDC_REDIRECT_URL=http://localhost:14200/api/v1/user/callback
@@ -52,9 +51,8 @@ The Angular client preserves the versioned HTTP contract. `api/openapi.json`
 describes its requests and responses. Regenerate it with
 `python3 scripts/generate-openapi.py` after changing the client contract.
 
-The metric protocol lives in `api/proto/metrics/v1/metrics.proto`. Install protoc
-25.x and run `make generate` to rebuild the Go protobuf bindings. The generation
-script installs pinned Go plugins into a temporary directory.
+`make generate` updates the OpenAPI document. Contract tests compare every
+versioned route with the document in both directions.
 
 Keep comments focused on constraints, protocol details, or non-obvious choices.
 Commit messages should describe the resulting change, for example `Fix alert

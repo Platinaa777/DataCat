@@ -5,7 +5,6 @@ GO_TEST_FLAGS ?=
 
 build:
 	$(GO) build -trimpath -o bin/datacat ./cmd/datacat
-	$(GO) build -trimpath -o bin/import-legacy ./cmd/import-legacy
 
 run:
 	$(GO) run ./cmd/datacat -migrate
@@ -24,7 +23,7 @@ vet:
 	$(GO) vet ./...
 
 fmt:
-	gofmt -w cmd internal pkg api/gen
+	gofmt -w cmd internal
 
 ui:
 	cd frontend/datacat-ui && npm start
@@ -36,4 +35,4 @@ dev:
 	./scripts/dev.sh
 
 generate:
-	./scripts/generate-proto.sh
+	python3 scripts/generate-openapi.py

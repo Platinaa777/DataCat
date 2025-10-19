@@ -1,13 +1,25 @@
 # Architecture
 
-The server has one executable and one PostgreSQL database. HTTP and gRPC share
-an authentication service. A background worker evaluates alerts and delivers
+The server has one executable and one PostgreSQL database. HTTP uses OIDC authentication. A background worker evaluates alerts and delivers
 queued notifications.
 
 ## Boundaries
 
-`cmd` parses process options and handles signals. `bootstrap` opens dependencies,
-starts listeners, and shuts them down before closing the database pool.
+`cmd` parses process options and handles signals. `bootstrap` wires dependencies
+with ordinary constructors:
+
+- `dependencies.go` opens PostgreSQL, cache, and external clients.
+- `router.go` constructs feature handlers and registers them with the router.
+- `http.go` configures OIDC and HTTP server limits.
+- `app.go` starts the server and worker and coordinates shutdown.
+- `run.go` loads configuration and selects migration or serving mode.
+
+Each package under `api/http` represents a feature: dashboards, panels, alerts,
+variables, namespaces, data sources, notifications, plugins, secrets, or telemetry
+queries. Its `routes.go` declares routes, `handler.go` contains named handlers,
+and `models.go` defines request payloads. The shared `transport` package handles
+JSON decoding, responses, errors, namespace checks, and pagination. The root
+router adds authentication, middleware, health checks, and scrape counters.
 
 `api` owns request decoding, access checks, response mapping, and transport errors.
 A request carries one namespace in `X-Namespace`; a body or query parameter cannot
@@ -55,14 +67,11 @@ Query caching has a five-second TTL. Keys include the namespace and query
 parameters. The default cache has a bounded capacity; Redis is optional and fails
 open on cache outages. Access is checked before cached values are returned.
 
-## Telemetry ingestion
+## Telemetry queries
 
-The protobuf receiver validates and stores authenticated metric batches. This
-endpoint is an ingestion archive, not a replacement for a Prometheus server.
-Batches are retained for seven days. Delivered outbox entries are retained for
-30 days. Cleanup runs hourly while a worker is running.
+Metrics, logs, and traces stay in Prometheus, Elasticsearch, Jaeger, or a provider
+behind an HTTP plugin. DataCat queries those providers and stores only application
+configuration, alert state, and the notification outbox in PostgreSQL.
 
-The Go exporter preserves resource and point labels as separate metric series.
-The inherited protocol stores integer counters and histogram summaries. Floating
-point sums use gauge points; histogram bucket boundaries and exponential
-histograms are not represented by this protocol.
+Delivered outbox entries are retained for 30 days. Cleanup runs hourly while the
+worker is running.

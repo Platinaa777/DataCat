@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the frozen Angular client's wire contract as OpenAPI."""
+"""Export the Angular client wire contract as OpenAPI."""
 import json
 import re
 from pathlib import Path
@@ -61,7 +61,7 @@ for operation, args, output, body in method_pattern.findall(source):
         kind = next((value for key, value in argument_types.items() if key.lower() == name.lower()), "string")
         parameters.append({"name": name, "in": "query", "required": False, "schema": schema(kind)})
     global_routes = ("/api/v1/user/", "/api/v1/namespace", "/api/v1/plugin/", "/api/v1/data-source-type/",
-                     "/api/v1/notification-destination/", "/api/v1/external-role", "/api/v1/meta/", "/api/v1/debug/", "/api/v1/datasource/")
+                     "/api/v1/notification-destination/", "/api/v1/external-role", "/api/v1/datasource/")
     if not path.startswith(global_routes):
         parameters.append({"name": "X-Namespace", "in": "header", "required": True, "schema": {"type": "string", "format": "uuid"}})
     operation_data = {"operationId": operation, "parameters": parameters,
@@ -82,11 +82,14 @@ for operation, args, output, body in method_pattern.findall(source):
     if path in ("/api/v1/user/login-code-flow", "/api/v1/user/callback"):
         operation_data["responses"].pop("200", None)
         operation_data["responses"]["302"] = {"description": "Continue login in the browser"}
-    if path == "/api/v1/meta/database-schema":
-        operation_data["responses"]["200"]["content"] = {"application/json": {"schema": {"type": "array", "items": {"type": "object", "properties": {"schema": {"type": "string"}, "tables": {"type": "array", "items": {"type": "string"}}}}}}}
-    if path.startswith("/api/v1/debug/rollback/"):
-        operation_data["responses"].pop("200", None)
     paths.setdefault(path, {})[verb] = operation_data
+
+paths["/api/v1/notification-destination/get-all"] = {"get": {
+    "operationId": "getApiV1NotificationDestinationGetAll",
+    "responses": {"200": {"description": "Success", "content": {"application/json": {"schema": {
+        "type": "array", "items": {"$ref": "#/components/schemas/GetNotificationDestinationResponse"}
+    }}}}}
+}}
 
 document = {"openapi": "3.0.3", "info": {"title": "DataCat API", "version": "1.0"},
             "security": [{"bearerAuth": []}, {"cookieAuth": []}], "paths": paths,

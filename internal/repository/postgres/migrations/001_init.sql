@@ -24,11 +24,4 @@ CREATE TABLE IF NOT EXISTS datacat.outbox (
     created_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS outbox_pending ON datacat.outbox(available_at) WHERE delivered_at IS NULL;
-CREATE TABLE IF NOT EXISTS datacat.metric_batches (
-    id bigserial PRIMARY KEY,
-    namespace text NOT NULL,
-    data jsonb NOT NULL,
-    received_at timestamptz NOT NULL DEFAULT now()
-);
-CREATE INDEX IF NOT EXISTS metric_batches_received ON datacat.metric_batches(received_at);
 CREATE INDEX IF NOT EXISTS resources_alert_due ON datacat.resources((data->>'nextExecutionTime')) WHERE kind='alert';

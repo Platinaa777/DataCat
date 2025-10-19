@@ -1,29 +1,35 @@
-package httpapi
+package httpapi_test
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/Platinaa777/DataCat/internal/api/auth"
+	"github.com/Platinaa777/DataCat/internal/bootstrap"
+	"github.com/Platinaa777/DataCat/internal/config"
 	"github.com/go-chi/chi/v5"
 )
 
-func TestLegacyRoutesRemainRegistered(t *testing.T) {
-	b, err := os.ReadFile(filepath.Join("..", "..", "..", "docs", "legacy-api.json"))
+func TestOpenAPIRoutesMatchRouter(t *testing.T) {
+	b, err := os.ReadFile(filepath.Join("..", "..", "..", "api", "openapi.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	var routes []struct{ Method, Path, Status string }
-	if err = json.Unmarshal(b, &routes); err != nil {
+	var document struct {
+		Paths map[string]map[string]json.RawMessage `json:"paths"`
+	}
+	if err = json.Unmarshal(b, &document); err != nil {
 		t.Fatal(err)
 	}
 	parameter := regexp.MustCompile(`\{[^}]+\}`)
 	canonical := func(path string) string { return parameter.ReplaceAllString(path, "{}") }
-	s := &Server{Auth: &auth.Auth{}}
+	s := bootstrap.NewRouter(nil, &auth.Auth{}, nil, config.Config{}, slog.Default(), nil)
 	registered := map[string]bool{}
 	if err = chi.Walk(s.Handler().(chi.Routes), func(method, route string, _ http.Handler, _ ...func(http.Handler) http.Handler) error {
 		registered[method+" "+canonical(route)] = true
@@ -31,12 +37,18 @@ func TestLegacyRoutesRemainRegistered(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	for _, route := range routes {
-		if route.Status == "inactive-in-legacy" {
-			continue
+	for path, methods := range document.Paths {
+		for method := range methods {
+			key := strings.ToUpper(method) + " " + canonical(path)
+			if !registered[key] {
+				t.Errorf("OpenAPI operation has no route: %s", key)
+			}
+			delete(registered, key)
 		}
-		if !registered[route.Method+" "+canonical(route.Path)] {
-			t.Errorf("missing legacy route: %s %s", route.Method, route.Path)
+	}
+	for route := range registered {
+		if strings.Contains(route, " /api/v1/") {
+			t.Errorf("route has no OpenAPI operation: %s", route)
 		}
 	}
 }

@@ -36,9 +36,6 @@ func (w *Worker) Run(ctx context.Context) {
 		case <-ticker.C:
 			ticks++
 			if ticks%3600 == 0 {
-				if _, err := w.Store.Pool().Exec(ctx, "DELETE FROM datacat.metric_batches WHERE received_at<now()-interval '7 days'"); err != nil {
-					w.Log.WarnContext(ctx, "metric retention failed")
-				}
 				if _, err := w.Store.Pool().Exec(ctx, "DELETE FROM datacat.outbox WHERE delivered_at<now()-interval '30 days'"); err != nil {
 					w.Log.WarnContext(ctx, "outbox retention failed")
 				}

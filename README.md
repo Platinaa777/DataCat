@@ -13,7 +13,6 @@ The server is written in Go 1.21. The web application uses Angular 18 and PrimeN
 - Telegram, SMTP, webhook, and HTTP plugin notifications.
 - PostgreSQL persistence, encrypted credentials, and optional Vault KV v2.
 - Local or Redis query caching.
-- gRPC metric ingestion and a Go OpenTelemetry exporter.
 
 ## Local development
 
@@ -26,7 +25,7 @@ make dev
 Open http://localhost:4200 and sign in as `developer` with password
 `local-development-only`. This account belongs to the local Keycloak realm only.
 The script creates a private `.env`, starts PostgreSQL and Keycloak, installs the
-web dependencies, and runs both applications. Ports 4200, 8080, 8081, 4317, and
+web dependencies, and runs both applications. Ports 4200, 8080, 8081, and
 54329 must be available. Use `docker compose down` to stop the dependencies.
 
 For separate terminals:
@@ -60,19 +59,17 @@ a database user with permission to create temporary test databases.
 | Path | Purpose |
 | --- | --- |
 | `cmd/datacat` | Server entry point |
-| `cmd/import-legacy` | Import the previous PostgreSQL schema |
-| `internal/api` | HTTP, gRPC, and authentication |
+| `internal/api` | HTTP and authentication |
 | `internal/usecases` | Resource operations and alert evaluation |
 | `internal/repository` | PostgreSQL access and migrations |
 | `internal/extapi` | Telemetry, notifications, and Vault clients |
-| `pkg/exporter` | OpenTelemetry metric exporter |
-| `api` | HTTP and protobuf contracts |
+| `api` | HTTP contract |
 | `frontend/datacat-ui` | Angular application |
 | `.ops` | Images, local identity provider, and Kubernetes manifests |
 
 See [development](docs/development.md), [configuration](docs/configuration.md),
 [architecture](docs/structure.md), [deployment](docs/deployment.md),
-[migration](docs/migration.md), and [plugin protocol](docs/plugins.md), and [screenshots](docs/gallery.md). Verification results are recorded in
+[plugin protocol](docs/plugins.md), and [screenshots](docs/gallery.md). Verification results are recorded in
 [validation](docs/validation.md).
 
 ## License

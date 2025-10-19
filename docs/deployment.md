@@ -22,12 +22,11 @@ Secret. Use your normal secret manager; do not commit their values.
 `--apply` applies them to the current kubectl context and waits for rollouts.
 It does not build or publish images.
 
-The HTTP ingress terminates TLS and forwards to the UI. Expose gRPC separately
-through a TLS ingress or gateway that supports HTTP/2 gRPC. Internal gRPC uses
-port 4317. Do not expose the raw internal listener directly on a public network.
+The HTTP ingress terminates TLS and forwards to the UI. The UI proxies API
+requests to the internal HTTP service.
 
 Startup migrations take a PostgreSQL advisory transaction lock. The `-migrate`
-flag applies additive schema setup before serving requests. A separate
+flag applies schema migrations before serving requests. A separate
 `-migrate-only` invocation can be used before rollout instead. The database
 account must have the required DDL rights when running migrations.
 
@@ -39,9 +38,9 @@ account must have the required DDL rights when running migrations.
 - Logs are JSON and contain request IDs, methods, and paths; request bodies and
   token values are not logged.
 
-Back up PostgreSQL and the encryption key before migrations. The legacy importer
-uses a separate `datacat` schema and leaves the old tables intact. Keep a tested
-restore procedure rather than invoking schema rollback over HTTP.
+Back up PostgreSQL and the encryption key before migrations. Keep a tested
+restore procedure. The cleanup migration removes the retired metric-batch table;
+export any batches that need to be retained before running it.
 
 Inspect notifications that exhausted their retries:
 

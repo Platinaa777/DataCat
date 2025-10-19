@@ -10,7 +10,7 @@ import (
 )
 
 type Config struct {
-	HTTPAddr, GRPCAddr, DatabaseURL, RedisURL   string
+	HTTPAddr, DatabaseURL, RedisURL             string
 	Issuer, ClientID, ClientSecret, RedirectURL string
 	PublicURL, AllowedOrigin, DevToken          string
 	SecretKey                                   []byte
@@ -19,7 +19,7 @@ type Config struct {
 }
 
 func Load() (Config, error) {
-	c := Config{HTTPAddr: env("HTTP_ADDR", ":8080"), GRPCAddr: env("GRPC_ADDR", ":4317"), DatabaseURL: os.Getenv("DATABASE_URL"), RedisURL: os.Getenv("REDIS_URL"), Issuer: os.Getenv("OIDC_ISSUER"), ClientID: os.Getenv("OIDC_CLIENT_ID"), ClientSecret: os.Getenv("OIDC_CLIENT_SECRET"), RedirectURL: os.Getenv("OIDC_REDIRECT_URL"), PublicURL: env("PUBLIC_URL", "http://localhost:4200"), AllowedOrigin: env("ALLOWED_ORIGIN", "http://localhost:4200"), DevToken: os.Getenv("DEV_TOKEN"), HTTPTimeout: 15 * time.Second}
+	c := Config{HTTPAddr: env("HTTP_ADDR", ":8080"), DatabaseURL: os.Getenv("DATABASE_URL"), RedisURL: os.Getenv("REDIS_URL"), Issuer: os.Getenv("OIDC_ISSUER"), ClientID: os.Getenv("OIDC_CLIENT_ID"), ClientSecret: os.Getenv("OIDC_CLIENT_SECRET"), RedirectURL: os.Getenv("OIDC_REDIRECT_URL"), PublicURL: env("PUBLIC_URL", "http://localhost:4200"), AllowedOrigin: env("ALLOWED_ORIGIN", "http://localhost:4200"), DevToken: os.Getenv("DEV_TOKEN"), HTTPTimeout: 15 * time.Second}
 	var err error
 	c.SecretKey, err = base64.StdEncoding.DecodeString(os.Getenv("SECRET_KEY"))
 	if err != nil || len(c.SecretKey) != 32 {

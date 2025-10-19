@@ -27,8 +27,6 @@ spec:
           ports:
             - name: http
               containerPort: 8080
-            - name: grpc
-              containerPort: 4317
           envFrom:
             - configMapRef:
                 name: datacat
@@ -74,6 +72,3 @@ spec:
     - name: http
       port: 8080
       targetPort: http
-    - name: grpc
-      port: 4317
-      targetPort: grpc

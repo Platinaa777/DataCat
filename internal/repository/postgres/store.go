@@ -56,12 +56,20 @@ func (s *Store) Migrate(ctx context.Context) error {
 		if _, err := tx.db.Exec(ctx, "SELECT pg_advisory_xact_lock(68323011)"); err != nil {
 			return err
 		}
-		b, err := migrations.ReadFile("migrations/001_init.sql")
+		files, err := migrations.ReadDir("migrations")
 		if err != nil {
 			return err
 		}
-		_, err = tx.db.Exec(ctx, string(b))
-		return err
+		for _, file := range files {
+			b, err := migrations.ReadFile("migrations/" + file.Name())
+			if err != nil {
+				return err
+			}
+			if _, err = tx.db.Exec(ctx, string(b)); err != nil {
+				return fmt.Errorf("migration %s: %w", file.Name(), err)
+			}
+		}
+		return nil
 	})
 }
 func (s *Store) Within(ctx context.Context, fn func(contract.Store) error) error {

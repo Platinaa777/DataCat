@@ -1,6 +1,6 @@
 //go:build integration
 
-package httpapi
+package httpapi_test
 
 import (
 	"bytes"
@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/Platinaa777/DataCat/internal/api/auth"
+	"github.com/Platinaa777/DataCat/internal/bootstrap"
 	"github.com/Platinaa777/DataCat/internal/config"
 	"github.com/Platinaa777/DataCat/internal/entity"
 	"github.com/Platinaa777/DataCat/internal/extapi/httpclient"
@@ -96,7 +97,17 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	if err = store.Migrate(ctx); err != nil {
 		t.Fatal(err)
 	}
-	if _, err = store.Pool().Exec(ctx, "TRUNCATE datacat.resources,datacat.outbox,datacat.metric_batches RESTART IDENTITY"); err != nil {
+	if _, err = store.Pool().Exec(ctx, "CREATE TABLE datacat.metric_batches (id bigint)"); err != nil {
+		t.Fatal(err)
+	}
+	if err = store.Migrate(ctx); err != nil {
+		t.Fatal(err)
+	}
+	var removed bool
+	if err = store.Pool().QueryRow(ctx, "SELECT to_regclass('datacat.metric_batches') IS NULL").Scan(&removed); err != nil || !removed {
+		t.Fatalf("retired metric table still exists: %v", err)
+	}
+	if _, err = store.Pool().Exec(ctx, "TRUNCATE datacat.resources,datacat.outbox RESTART IDENTITY"); err != nil {
 		t.Fatal(err)
 	}
 	cipher, _ := secrets.New(bytes.Repeat([]byte{1}, 32))
@@ -139,7 +150,7 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	client := httpclient.New([]string{upstreamURL.Host})
 	provider := &telemetry.Provider{Client: client}
 	log := slog.New(slog.NewTextHandler(io.Discard, nil))
-	server := &Server{Service: service, Auth: identity, Telemetry: provider, Log: log, Config: config.Config{AllowedOrigin: "https://ui.example.test"}}
+	server := bootstrap.NewRouter(service, identity, provider, config.Config{AllowedOrigin: "https://ui.example.test"}, log, nil)
 	api := httptest.NewServer(server.Handler())
 	defer api.Close()
 	adminToken := idp.token(t, nil, true, "datacat", time.Now().Add(time.Hour))
@@ -199,7 +210,11 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	dashboard := id(call("POST", "/dashboard/add", editor, ns, map[string]any{"name": "API", "namespaceId": ns, "tags": []string{"prod", "prod"}}, 200))
 	call("POST", "/dashboard/add", editor, ns, map[string]any{"name": "API"}, 409)
 	call("GET", "/dashboard/"+dashboard, adminToken, other, nil, 404)
-	call("GET", "/dashboard/"+dashboard, viewer, ns, nil, 200)
+	call("PUT", "/dashboard/update/"+dashboard, editor, ns, map[string]any{"name": "API updated", "description": "Production overview"}, 200)
+	var updated entity.Dashboard
+	if err := json.Unmarshal(call("GET", "/dashboard/"+dashboard, viewer, ns, nil, 200), &updated); err != nil || updated.Name != "API updated" {
+		t.Fatalf("dashboard update was not persisted: %+v %v", updated, err)
+	}
 	call("POST", "/dashboard/search?page=0", viewer, ns, map[string]any{}, 400)
 	call("POST", "/dashboard/search", viewer, ns, map[string]any{"filters": []map[string]any{{"key": "Tags", "value": []string{"prod"}, "matchMode": "contains", "fieldType": "array"}}}, 200)
 	call("POST", "/secret/add", editor, ns, map[string]any{"key": "token", "value": "hidden"}, 403)
@@ -214,6 +229,10 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	}
 	connection := fmt.Sprintf(`{"serverUrl":%q}`, providerServer.URL)
 	source := id(call("POST", "/data-source/add", adminToken, ns, map[string]any{"uniqueName": "prom", "dataSourceType": "prometheus", "connectionString": connection, "purpose": "metrics"}, 200))
+	call("PUT", "/data-source/update-connection-string/"+source, adminToken, ns, map[string]any{"connectionString": connection}, 200)
+	if dataSource, err := service.DataSource(ctx, ns, source); err != nil || dataSource.ConnectionString != connection {
+		t.Fatalf("connection update failed: %+v %v", dataSource, err)
+	}
 	call("POST", "/data-source/add", editor, ns, map[string]any{"uniqueName": "denied"}, 403)
 	call("GET", "/metrics/query?DataSourceName=prom&Query=up&NamespaceId="+ns, viewer, ns, nil, 200)
 	call("GET", "/metrics/query?DataSourceName=prom&Query=up&NamespaceId="+other, viewer, ns, nil, 403)
@@ -224,13 +243,20 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	call("GET", "/panel/"+panel, viewer, ns, nil, 200)
 	call("POST", "/panel/add", adminToken, other, map[string]any{"title": "denied", "type": 1, "rawQuery": "up", "dataSourceId": source, "layout": "{}", "dashboardId": dashboard}, 404)
 	variable := id(call("POST", "/variable/add", editor, ns, map[string]any{"placeholder": "service", "value": "api", "namespaceId": ns, "dashboardId": dashboard}, 200))
-	call("GET", "/variable/"+variable, viewer, ns, nil, 200)
+	call("PUT", "/variable/update/"+variable, editor, ns, map[string]any{"placeholder": "service", "value": "web"}, 200)
+	call("GET", "/variables/dashboard/"+dashboard, viewer, ns, nil, 200)
+	call("GET", "/variables/namespace/"+other, viewer, ns, nil, 403)
+	var updatedVariable entity.Variable
+	if err := json.Unmarshal(call("GET", "/variable/"+variable, viewer, ns, nil, 200), &updatedVariable); err != nil || updatedVariable.Value != "web" {
+		t.Fatalf("variable update was not persisted: %+v %v", updatedVariable, err)
+	}
 	call("GET", "/dashboard/"+dashboard+"/full", viewer, ns, nil, 200)
 	group := id(call("POST", "/notification-channel-group/add", editor, ns, map[string]any{"name": "ops"}, 200))
 	call("POST", "/notification-channel/add", adminToken, ns, map[string]any{"notificationChannelGroupName": "ops", "destinationName": "webhook", "settings": fmt.Sprintf(`{"Url":%q}`, providerServer.URL+"/webhook")}, 200)
 	call("GET", "/notification-channel-group/"+group, viewer, ns, nil, 200)
 	alert := id(call("POST", "/alert/add", editor, ns, map[string]any{"template": "{.status}", "rawQuery": "up", "dataSourceId": source, "notificationChannelGroupName": "ops", "waitTimeBeforeAlerting": "00:00:00", "repeatInterval": "00:01:00"}, 200))
 	call("POST", "/alert/search", viewer, ns, map[string]any{"filters": []map[string]any{{"key": "dataSourceId", "value": source, "matchMode": "equals", "fieldType": "string"}}}, 200)
+	call("PUT", "/alert/update/"+alert, editor, ns, map[string]any{"description": "Availability", "template": "{.status}", "rawQuery": "up", "dataSourceId": source}, 200)
 	call("GET", "/alert/"+alert, viewer, ns, nil, 200)
 	call("DELETE", "/data-source/remove/"+source, adminToken, ns, nil, 409)
 	workerCtx, stop := context.WithCancel(ctx)
@@ -267,11 +293,14 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	call("GET", "/traces/abc?dataSourceName=traces", viewer, ns, nil, 200)
 	call("POST", "/traces/search", viewer, ns, map[string]any{"dataSourceName": "traces", "service": "api", "start": "2025-01-01T00:00:00Z", "end": "2025-01-01T00:01:00Z", "limit": 10}, 200)
 	plugin := id(call("POST", "/plugin/add", adminToken, "", map[string]any{"name": "custom", "version": "1", "author": "test", "endpoint": providerServer.URL + "/plugin"}, 200))
+	call("PUT", "/plugin/update/"+plugin, adminToken, "", map[string]any{"description": "Custom provider", "settings": "{}"}, 200)
 	call("POST", "/plugin/"+plugin+"?isActive=true", adminToken, "", nil, 200)
 	call("POST", "/data-source-type/add", adminToken, "", map[string]any{"name": "custom"}, 200)
 	call("POST", "/data-source/add", adminToken, ns, map[string]any{"uniqueName": "custom-metrics", "dataSourceType": "custom", "connectionString": connection, "purpose": "metrics"}, 200)
 	call("GET", "/metrics/query?DataSourceName=custom-metrics&Query=up", viewer, ns, nil, 200)
-	call("DELETE", "/debug/rollback/10", adminToken, "", nil, 403)
+	call("DELETE", "/debug/rollback/10", adminToken, "", nil, 404)
+	call("GET", "/meta/database-schema", adminToken, "", nil, 404)
+	call("GET", "/meta/sql-queries", adminToken, "", nil, 404)
 	call("DELETE", "/dashboard/remove/"+dashboard, editor, ns, nil, 200)
 	call("GET", "/panel/"+panel, viewer, ns, nil, 404)
 	call("GET", "/variable/"+variable, viewer, ns, nil, 404)

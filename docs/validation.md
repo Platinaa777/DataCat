@@ -6,11 +6,10 @@ The following checks were run against the final implementation:
 | --- | --- |
 | Go 1.21.13 build and vet | Passed |
 | Unit tests and race detector | Passed |
-| Versioned route registration | 71 active legacy operations retained |
+| Versioned route registration | 69 operations match OpenAPI in both directions |
 | PostgreSQL 16 HTTP integration | Passed |
+| Retired table cleanup and repeated migration | Passed |
 | Alert state, worker, and webhook outbox | Passed |
-| Authenticated gRPC ingestion and persistence | Passed |
-| Legacy database import and manual role preservation | Passed |
 | Angular lint and TypeScript checks | Passed |
 | Angular production build under Node.js 20.19 | Passed |
 | Real Keycloak login and browser navigation | Passed |
@@ -20,9 +19,9 @@ The following checks were run against the final implementation:
 | Kubernetes manifest rendering | Passed; no cluster rollout performed |
 
 The HTTP integration tests verify JWT signatures, issuer/audience/expiry checks,
-namespace isolation, read/write roles, encrypted secrets, resource relationships,
-pagination, filters, telemetry response mapping, plugin dispatch, and destructive
-rollback rejection. Provider tests use local HTTP fixtures rather than external
+namespace isolation, read/write roles, resource updates, encrypted secrets, resource relationships,
+pagination, filters, telemetry response mapping, plugin dispatch, and removal of retired
+management endpoints. Provider tests use local HTTP fixtures rather than external
 Prometheus, Elasticsearch, or Jaeger deployments.
 
 The browser scenario checks an actual Authorization Code login, HttpOnly session
