@@ -2,6 +2,8 @@
 
 ## Maintenance
 
+- Move provider queries, caching, views, permissions, and endpoint validation into application services.
+
 - Remove custom metric ingestion, its exporter, and the old database importer.
 - Split HTTP routes and handlers by feature and wire dependencies in bootstrap.
 - Remove unused database management endpoints and update the HTTP contract.

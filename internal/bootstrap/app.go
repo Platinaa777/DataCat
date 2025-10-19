@@ -9,8 +9,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Platinaa777/DataCat/internal/extapi/telemetry"
-	"github.com/Platinaa777/DataCat/internal/pkg/cache"
 	"github.com/Platinaa777/DataCat/internal/repository/postgres"
 	"github.com/Platinaa777/DataCat/internal/usecases"
 	"github.com/Platinaa777/DataCat/internal/worker"
@@ -19,8 +17,7 @@ import (
 type application struct {
 	store       *postgres.Store
 	service     *usecases.Service
-	provider    *telemetry.Provider
-	cache       cache.Cache
+	queries     *usecases.Queries
 	cacheCloser io.Closer
 	http        *http.Server
 	worker      *worker.Worker

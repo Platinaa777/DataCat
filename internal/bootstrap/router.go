@@ -19,12 +19,10 @@ import (
 	"github.com/Platinaa777/DataCat/internal/api/http/user"
 	"github.com/Platinaa777/DataCat/internal/api/http/variable"
 	"github.com/Platinaa777/DataCat/internal/config"
-	"github.com/Platinaa777/DataCat/internal/extapi/telemetry"
-	"github.com/Platinaa777/DataCat/internal/pkg/cache"
 	"github.com/Platinaa777/DataCat/internal/usecases"
 )
 
-func NewRouter(service *usecases.Service, identity *auth.Auth, provider *telemetry.Provider, cfg config.Config, log *slog.Logger, resultCache cache.Cache) *httpapi.Server {
+func NewRouter(service *usecases.Service, identity *auth.Auth, queries *usecases.Queries, cfg config.Config, log *slog.Logger) *httpapi.Server {
 	access := &transport.Access{Service: service}
 	responses := &transport.Responder{Log: log}
 	return &httpapi.Server{Auth: identity, Config: cfg, Access: access, Responses: responses, Features: []httpapi.Feature{
@@ -33,11 +31,11 @@ func NewRouter(service *usecases.Service, identity *auth.Auth, provider *telemet
 		dashboard.New(service, access, responses),
 		panel.New(service, access, responses),
 		variable.New(service, access, responses),
-		datasource.New(service, access, responses, provider),
-		notification.New(service, access, responses, provider),
+		datasource.New(service, access, responses),
+		notification.New(service, access, responses),
 		alert.New(service, access, responses),
-		plugin.New(service, access, responses, provider),
-		query.New(service, access, responses, provider, resultCache),
+		plugin.New(service, access, responses),
+		query.New(queries, access, responses),
 		secret.New(service, access, responses),
 		catalog.New(service, responses, "data-source-type"),
 		catalog.New(service, responses, "notification-destination"),

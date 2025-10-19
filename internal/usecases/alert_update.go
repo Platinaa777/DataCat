@@ -45,3 +45,19 @@ func (s *Service) MuteAlert(ctx context.Context, ns, id string, duration time.Du
 	alert.PendingSince = nil
 	return alert.ID, Update(ctx, s.Store, record, alert)
 }
+
+func (s *Service) AlertCounters(ctx context.Context, ns string) ([]entity.AlertCounter, error) {
+	alerts, err := List[entity.Alert](ctx, s.Store, ns, "alert")
+	if err != nil {
+		return nil, err
+	}
+	counts := map[string]int{}
+	for _, alert := range alerts {
+		counts[alert.Status]++
+	}
+	result := []entity.AlertCounter{}
+	for _, status := range []string{"Ok", "Firing", "Error", "Muted"} {
+		result = append(result, entity.AlertCounter{Status: status, Count: counts[status]})
+	}
+	return result, nil
+}

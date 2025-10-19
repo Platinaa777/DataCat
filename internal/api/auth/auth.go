@@ -15,22 +15,25 @@ import (
 	"github.com/Platinaa777/DataCat/internal/config"
 	"github.com/Platinaa777/DataCat/internal/entity"
 	"github.com/Platinaa777/DataCat/internal/pkg/secrets"
-	"github.com/Platinaa777/DataCat/internal/usecases"
 	"github.com/coreos/go-oidc/v3/oidc"
 	"golang.org/x/oauth2"
 )
 
 type key struct{}
+type IdentityResolver interface {
+	ResolvePrincipal(context.Context, string, []string, map[string][]string) (entity.Principal, error)
+}
+
 type Auth struct {
 	verifier *oidc.IDTokenVerifier
 	oauth    oauth2.Config
 	cfg      config.Config
-	service  *usecases.Service
+	service  IdentityResolver
 	cipher   *secrets.Cipher
 }
 
-func New(ctx context.Context, cfg config.Config, service *usecases.Service) (*Auth, error) {
-	a := &Auth{cfg: cfg, service: service, cipher: service.Cipher}
+func New(ctx context.Context, cfg config.Config, service IdentityResolver, cipher *secrets.Cipher) (*Auth, error) {
+	a := &Auth{cfg: cfg, service: service, cipher: cipher}
 	if cfg.DevToken != "" {
 		return a, nil
 	}
@@ -44,10 +47,12 @@ func New(ctx context.Context, cfg config.Config, service *usecases.Service) (*Au
 	a.oauth = oauth2.Config{ClientID: cfg.ClientID, ClientSecret: cfg.ClientSecret, Endpoint: provider.Endpoint(), RedirectURL: cfg.RedirectURL, Scopes: []string{oidc.ScopeOpenID, "profile", "email"}}
 	return a, nil
 }
+
 func Principal(ctx context.Context) entity.Principal {
 	p, _ := ctx.Value(key{}).(entity.Principal)
 	return p
 }
+
 func (a *Auth) Verify(ctx context.Context, token string) (entity.Principal, error) {
 	if a.cfg.DevToken != "" && subtle.ConstantTimeCompare([]byte(token), []byte(a.cfg.DevToken)) == 1 {
 		return entity.Principal{Subject: "development", GlobalAdmin: true, Claims: []entity.Claim{}}, nil
@@ -68,38 +73,9 @@ func (a *Auth) Verify(ctx context.Context, token string) (entity.Principal, erro
 	if err = verified.Claims(&claims); err != nil {
 		return entity.Principal{}, err
 	}
-	p := entity.Principal{Subject: verified.Subject, Claims: []entity.Claim{}}
-	roles := map[string]bool{}
-	for _, role := range claims.RealmAccess.Roles {
-		roles[role] = true
-	}
-	p.GlobalAdmin = roles["datacat-admin"]
-	for ns, rs := range claims.NamespaceRoles {
-		for _, role := range rs {
-			if role == "Admin" || role == "Editor" || role == "Viewer" {
-				p.Claims = append(p.Claims, entity.Claim{Role: role, NamespaceID: ns})
-			}
-		}
-	}
-	mappings, err := usecases.List[entity.RoleMapping](ctx, a.service.Store, usecases.Global, "role-mapping")
-	if err != nil {
-		return entity.Principal{}, err
-	}
-	for _, m := range mappings {
-		if roles[m.ExternalRole] {
-			role := map[int]string{1: "Admin", 2: "Viewer", 3: "Editor"}[m.RoleID]
-			if role != "" {
-				p.Claims = append(p.Claims, entity.Claim{Role: role, NamespaceID: m.NamespaceID})
-			}
-		}
-	}
-	manual, _, err := usecases.Read[[]entity.Claim](ctx, a.service.Store, usecases.Global, "user-claims", p.Subject)
-	if err != nil && err != entity.ErrNotFound {
-		return entity.Principal{}, err
-	}
-	p.Claims = append(p.Claims, manual...)
-	return p, nil
+	return a.service.ResolvePrincipal(ctx, verified.Subject, claims.RealmAccess.Roles, claims.NamespaceRoles)
 }
+
 func (a *Auth) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
@@ -129,6 +105,7 @@ func random() string {
 	}
 	return base64.RawURLEncoding.EncodeToString(b)
 }
+
 func (a *Auth) Start(w http.ResponseWriter, r *http.Request) {
 	if a.verifier == nil {
 		http.Error(w, "OIDC is not configured", http.StatusServiceUnavailable)
@@ -150,6 +127,7 @@ func (a *Auth) Start(w http.ResponseWriter, r *http.Request) {
 	url := a.oauth.AuthCodeURL(s.State, oidc.Nonce(s.Nonce), oauth2.SetAuthURLParam("code_challenge", base64.RawURLEncoding.EncodeToString(hash[:])), oauth2.SetAuthURLParam("code_challenge_method", "S256"))
 	http.Redirect(w, r, url, http.StatusFound)
 }
+
 func (a *Auth) Callback(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{Name: "oidc_state", Value: "", Path: "/api/v1/user", MaxAge: -1, HttpOnly: true, Secure: strings.HasPrefix(a.cfg.RedirectURL, "https:"), SameSite: http.SameSiteLaxMode})
 	cookie, err := r.Cookie("oidc_state")
@@ -187,6 +165,7 @@ func (a *Auth) Callback(w http.ResponseWriter, r *http.Request) {
 	a.cookie(w, token)
 	http.Redirect(w, r, a.cfg.PublicURL, http.StatusFound)
 }
+
 func (a *Auth) Password(w http.ResponseWriter, r *http.Request) {
 	if a.verifier == nil {
 		http.Error(w, "OIDC is not configured", 503)
@@ -214,6 +193,7 @@ func (a *Auth) Password(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-store")
 	json.NewEncoder(w).Encode(map[string]any{"accessToken": token.AccessToken, "expiresIn": int(time.Until(token.Expiry).Seconds())})
 }
+
 func (a *Auth) cookie(w http.ResponseWriter, t *oauth2.Token) {
 	maxAge := int(time.Until(t.Expiry).Seconds())
 	if maxAge < 1 {

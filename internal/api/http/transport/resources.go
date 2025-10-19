@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/Platinaa777/DataCat/internal/entity"
@@ -25,19 +24,7 @@ func Search[T any](s *Access, r *http.Request, kind string) (any, error) {
 }
 
 func Page[T any](s *Access, r *http.Request, ns, kind string, query entity.Search, page, size int) (entity.Page[T], error) {
-	records, total, err := s.Service.Store.Search(r.Context(), ns, kind, query, page, size)
-	if err != nil {
-		return entity.Page[T]{}, err
-	}
-	out := make([]T, 0, len(records))
-	for _, record := range records {
-		var value T
-		if err = json.Unmarshal(record.Data, &value); err != nil {
-			return entity.Page[T]{}, err
-		}
-		out = append(out, value)
-	}
-	return entity.NewPage(out, total, page, size), nil
+	return usecases.SearchResources[T](r.Context(), s.Service, ns, kind, query, page, size)
 }
 
 func Get[T any](s *Access, r *http.Request, kind string) (any, error) {
@@ -45,7 +32,7 @@ func Get[T any](s *Access, r *http.Request, kind string) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	v, _, err := usecases.Read[T](r.Context(), s.Service.Store, ns, kind, Param(r, "id"))
+	v, err := usecases.Resource[T](r.Context(), s.Service, ns, kind, Param(r, "id"))
 	return v, err
 }
 

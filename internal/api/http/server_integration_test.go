@@ -26,6 +26,7 @@ import (
 	"github.com/Platinaa777/DataCat/internal/entity"
 	"github.com/Platinaa777/DataCat/internal/extapi/httpclient"
 	"github.com/Platinaa777/DataCat/internal/extapi/notifications"
+	"github.com/Platinaa777/DataCat/internal/extapi/plugins"
 	"github.com/Platinaa777/DataCat/internal/extapi/telemetry"
 	"github.com/Platinaa777/DataCat/internal/pkg/secrets"
 	"github.com/Platinaa777/DataCat/internal/repository/postgres"
@@ -65,6 +66,7 @@ func newIssuer(t *testing.T) *issuer {
 	t.Cleanup(i.server.Close)
 	return i
 }
+
 func (i *issuer) token(t *testing.T, roles map[string][]string, global bool, audience string, expiry time.Time) string {
 	t.Helper()
 	realm := []string{}
@@ -110,16 +112,6 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	if _, err = store.Pool().Exec(ctx, "TRUNCATE datacat.resources,datacat.outbox RESTART IDENTITY"); err != nil {
 		t.Fatal(err)
 	}
-	cipher, _ := secrets.New(bytes.Repeat([]byte{1}, 32))
-	service := usecases.New(store, cipher)
-	if err = service.Seed(ctx); err != nil {
-		t.Fatal(err)
-	}
-	idp := newIssuer(t)
-	identity, err := auth.New(ctx, config.Config{Issuer: idp.server.URL, ClientID: "datacat", RedirectURL: "http://localhost/callback"}, service)
-	if err != nil {
-		t.Fatal(err)
-	}
 	var deliveries atomic.Int32
 	providerServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -148,9 +140,20 @@ func TestAPIAndWorkerWithPostgres(t *testing.T) {
 	defer providerServer.Close()
 	upstreamURL, _ := url.Parse(providerServer.URL)
 	client := httpclient.New([]string{upstreamURL.Host})
+	cipher, _ := secrets.New(bytes.Repeat([]byte{1}, 32))
+	service := usecases.New(store, cipher, client)
+	if err = service.Seed(ctx); err != nil {
+		t.Fatal(err)
+	}
+	idp := newIssuer(t)
+	identity, err := auth.New(ctx, config.Config{Issuer: idp.server.URL, ClientID: "datacat", RedirectURL: "http://localhost/callback"}, service, cipher)
+	if err != nil {
+		t.Fatal(err)
+	}
 	provider := &telemetry.Provider{Client: client}
 	log := slog.New(slog.NewTextHandler(io.Discard, nil))
-	server := bootstrap.NewRouter(service, identity, provider, config.Config{AllowedOrigin: "https://ui.example.test"}, log, nil)
+	queries := usecases.NewQueries(service, provider, &plugins.Client{HTTP: client}, nil)
+	server := bootstrap.NewRouter(service, identity, queries, config.Config{AllowedOrigin: "https://ui.example.test"}, log)
 	api := httptest.NewServer(server.Handler())
 	defer api.Close()
 	adminToken := idp.token(t, nil, true, "datacat", time.Now().Add(time.Hour))

@@ -30,29 +30,11 @@ func (s *Handler) Create(r *http.Request) (any, error) {
 }
 
 func (s *Handler) Available(r *http.Request) (any, error) {
-	all, err := usecases.List[entity.Namespace](r.Context(), s.service.Store, usecases.Global, "namespace")
-	if err != nil {
-		return nil, err
-	}
-	out := []entity.Namespace{}
-	for _, ns := range all {
-		if auth.Principal(r.Context()).Can(ns.ID, false) {
-			out = append(out, ns)
-		}
-	}
-	return out, nil
+	return s.service.AvailableNamespaces(r.Context(), auth.Principal(r.Context()))
 }
 
 func (s *Handler) Get(r *http.Request) (any, error) {
-	ns, _, err := usecases.Read[entity.Namespace](r.Context(), s.service.Store, usecases.Global, "namespace", transport.Param(r, "name"))
-	if err != nil {
-		return nil, err
-	}
-	if !auth.Principal(r.Context()).Can(ns.ID, false) {
-		return nil, entity.ErrForbidden
-	}
-	dashboards, err := usecases.List[entity.Dashboard](r.Context(), s.service.Store, ns.ID, "dashboard")
-	return map[string]any{"name": ns.Name, "dashboards": dashboards}, err
+	return s.service.NamespaceDetails(r.Context(), auth.Principal(r.Context()), transport.Param(r, "name"))
 }
 
 func (s *Handler) MapRole(r *http.Request) (any, error) {

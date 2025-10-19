@@ -1,7 +1,8 @@
 # Architecture
 
-The server has one executable and one PostgreSQL database. HTTP uses OIDC authentication. A background worker evaluates alerts and delivers
-queued notifications.
+The server has one executable and one PostgreSQL database. HTTP uses OIDC
+authentication. A background worker evaluates alerts and delivers queued
+notifications.
 
 ## Boundaries
 
@@ -21,14 +22,27 @@ and `models.go` defines request payloads. The shared `transport` package handles
 JSON decoding, responses, errors, namespace checks, and pagination. The root
 router adds authentication, middleware, health checks, and scrape counters.
 
-`api` owns request decoding, access checks, response mapping, and transport errors.
+`api` owns request decoding, identity verification, response encoding, and
+transport errors. Adapters pass identity and namespace values to application
+operations; they do not read repositories or call telemetry providers directly.
 A request carries one namespace in `X-Namespace`; a body or query parameter cannot
 override it. Global integration management requires the `datacat-admin` realm
 role. Namespace roles grant access only to their matching namespace.
 
-`usecases` owns validation, resource relationships, transactions, template
-rendering, and query variable substitution. Repository ports live in
-`internal/usecases/contract`.
+`usecases` is the application layer. `Service` owns resource operations,
+validation, permissions, credential visibility, composite views, and transactions.
+`Queries` owns provider selection, query expansion, plugin dispatch, upstream
+errors, and metrics caching. Both accept contexts and ordinary values; neither
+depends on HTTP requests or routers.
+
+Repository, telemetry, plugin, cache, and endpoint-policy interfaces live in
+`internal/usecases/contract`. Bootstrap supplies the PostgreSQL, HTTP, and cache
+adapters. Authentication resolves application roles through an interface and
+receives its cookie cipher separately.
+
+Architecture tests prevent API packages from accessing storage or importing
+external adapters. Application tests exercise query caching, namespace isolation,
+plugin activation, role resolution, and credential visibility without HTTP.
 
 `repository/postgres` stores typed resource payloads in JSONB envelopes identified
 by namespace, kind, and ID. Named resources have a unique name within their kind

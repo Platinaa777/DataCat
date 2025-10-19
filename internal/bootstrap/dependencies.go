@@ -10,6 +10,7 @@ import (
 	"github.com/Platinaa777/DataCat/internal/config"
 	"github.com/Platinaa777/DataCat/internal/extapi/httpclient"
 	"github.com/Platinaa777/DataCat/internal/extapi/notifications"
+	"github.com/Platinaa777/DataCat/internal/extapi/plugins"
 	"github.com/Platinaa777/DataCat/internal/extapi/telemetry"
 	"github.com/Platinaa777/DataCat/internal/extapi/vault"
 	"github.com/Platinaa777/DataCat/internal/pkg/cache"
@@ -41,24 +42,25 @@ func newApplication(ctx context.Context, cfg config.Config, log *slog.Logger, mi
 	if err != nil {
 		return nil, err
 	}
-	app.service = usecases.New(store, cipher)
+	client := httpclient.New(cfg.AllowedHosts)
+	app.service = usecases.New(store, cipher, client)
 	if err = app.service.Seed(startup); err != nil {
 		return nil, fmt.Errorf("seed integration types: %w", err)
 	}
-	client := httpclient.New(cfg.AllowedHosts)
 	if err = configureVault(app.service, client); err != nil {
 		return nil, err
 	}
-	app.cache = cache.NewMemory(1000)
+	var resultCache cache.Cache = cache.NewMemory(1000)
 	if cfg.RedisURL != "" {
 		redis, openErr := cache.NewRedis(cfg.RedisURL)
 		if openErr != nil {
 			return nil, fmt.Errorf("Redis URL: %w", openErr)
 		}
-		app.cache, app.cacheCloser = redis, redis
+		resultCache, app.cacheCloser = redis, redis
 	}
-	app.provider = &telemetry.Provider{Client: client}
-	app.worker = &worker.Worker{Store: store, Service: app.service, Telemetry: app.provider, Sender: &notifications.Sender{Client: client, Service: app.service}, Log: log}
+	provider := &telemetry.Provider{Client: client}
+	app.queries = usecases.NewQueries(app.service, provider, &plugins.Client{HTTP: client}, resultCache)
+	app.worker = &worker.Worker{Store: store, Service: app.service, Telemetry: provider, Sender: &notifications.Sender{Client: client, Service: app.service}, Log: log}
 	return app, nil
 }
 

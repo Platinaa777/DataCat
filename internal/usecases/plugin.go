@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Platinaa777/DataCat/internal/entity"
 )
@@ -23,4 +24,15 @@ func (s *Service) UpdatePlugin(ctx context.Context, id, description, settings st
 	p.Description = description
 	p.Settings = settings
 	return Update(ctx, s.Store, rec, p)
+}
+
+func (s *Service) CreatePlugin(ctx context.Context, plugin entity.Plugin) (string, error) {
+	if err := Required(plugin.Name, plugin.Version, plugin.Author, plugin.Endpoint); err != nil {
+		return "", err
+	}
+	if _, err := s.Endpoints.Validate(plugin.Endpoint); err != nil {
+		return "", fmt.Errorf("%w: %v", entity.ErrInvalid, err)
+	}
+	plugin.ID = ID()
+	return plugin.ID, Create(ctx, s.Store, Global, "plugin", plugin.ID, plugin.Name, plugin)
 }

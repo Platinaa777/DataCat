@@ -16,7 +16,7 @@ func (s *Server) live(w http.ResponseWriter, r *http.Request) {
 func (s *Server) ready(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 	defer cancel()
-	if s.Access.Service.Store.Ping(ctx) != nil {
+	if s.Access.Service.Ping(ctx) != nil {
 		transport.Write(w, 503, map[string]string{"status": "unavailable"})
 		return
 	}

@@ -6,6 +6,8 @@ The following checks were run against the final implementation:
 | --- | --- |
 | Go 1.21.13 build and vet | Passed |
 | Unit tests and race detector | Passed |
+| Application workflows without HTTP | Passed |
+| API dependency boundaries | Passed |
 | Versioned route registration | 69 operations match OpenAPI in both directions |
 | PostgreSQL 16 HTTP integration | Passed |
 | Retired table cleanup and repeated migration | Passed |

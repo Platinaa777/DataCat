@@ -42,14 +42,7 @@ func (s *Handler) ByDashboard(r *http.Request) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	all, err := usecases.List[entity.Variable](r.Context(), s.service.Store, ns, "variable")
-	out := []entity.Variable{}
-	for _, v := range all {
-		if v.DashboardID != nil && *v.DashboardID == transport.Param(r, "id") {
-			out = append(out, v)
-		}
-	}
-	return out, err
+	return s.service.DashboardVariables(r.Context(), ns, transport.Param(r, "id"))
 }
 
 func (s *Handler) ByNamespace(r *http.Request) (any, error) {
@@ -57,10 +50,7 @@ func (s *Handler) ByNamespace(r *http.Request) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	if transport.Param(r, "id") != ns {
-		return nil, entity.ErrForbidden
-	}
-	return usecases.List[entity.Variable](r.Context(), s.service.Store, ns, "variable")
+	return s.service.NamespaceVariables(r.Context(), ns, transport.Param(r, "id"))
 }
 
 func (s *Handler) Delete(r *http.Request) (any, error) { return s.access.Remove(r, "variable") }

@@ -2,10 +2,8 @@ package catalog
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/Platinaa777/DataCat/internal/api/http/transport"
-	"github.com/Platinaa777/DataCat/internal/entity"
 	"github.com/Platinaa777/DataCat/internal/usecases"
 )
 
@@ -27,32 +25,20 @@ func (s *Handler) Create(r *http.Request) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = usecases.Required(input.Name); err != nil {
-		return nil, err
-	}
-	id, err := s.service.Store.NextID(r.Context())
-	if err != nil {
-		return nil, err
-	}
-	return id, usecases.Create(r.Context(), s.service.Store, usecases.Global, s.kind, strconv.FormatInt(id, 10), input.Name, entity.NamedType{ID: id, Name: input.Name})
+	return s.service.CreateNamedType(r.Context(), s.kind, input.Name)
 }
 
 func (s *Handler) List(r *http.Request) (any, error) {
-	return usecases.List[entity.NamedType](r.Context(), s.service.Store, usecases.Global, s.kind)
+	return s.service.NamedTypes(r.Context(), s.kind)
 }
 
 func (s *Handler) Get(r *http.Request) (any, error) {
-	v, _, err := usecases.Read[entity.NamedType](r.Context(), s.service.Store, usecases.Global, s.kind, transport.Param(r, "name"))
-	return v, err
+	return s.service.NamedType(r.Context(), s.kind, transport.Param(r, "name"))
 }
 
 func (s *Handler) Delete(r *http.Request) (any, error) {
 	if err := transport.Admin(r); err != nil {
 		return nil, err
 	}
-	_, rec, err := usecases.Read[entity.NamedType](r.Context(), s.service.Store, usecases.Global, s.kind, transport.Param(r, "name"))
-	if err != nil {
-		return nil, err
-	}
-	return nil, s.service.Delete(r.Context(), usecases.Global, s.kind, rec.ID)
+	return nil, s.service.DeleteNamedType(r.Context(), s.kind, transport.Param(r, "name"))
 }

@@ -36,19 +36,7 @@ func (s *Handler) Counters(r *http.Request) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	all, err := usecases.List[entity.Alert](r.Context(), s.service.Store, ns, "alert")
-	if err != nil {
-		return nil, err
-	}
-	counts := map[string]int{"Ok": 0, "Firing": 0, "Error": 0, "Muted": 0}
-	for _, a := range all {
-		counts[a.Status]++
-	}
-	out := []map[string]any{}
-	for _, status := range []string{"Ok", "Firing", "Error", "Muted"} {
-		out = append(out, map[string]any{"status": status, "count": counts[status]})
-	}
-	return out, nil
+	return s.service.AlertCounters(r.Context(), ns)
 }
 
 func (s *Handler) TemplateVariables(r *http.Request) (any, error) {

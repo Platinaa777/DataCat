@@ -11,6 +11,9 @@ import (
 )
 
 func (s *Service) UpdatePanel(ctx context.Context, ns, id, title, typeName, query, sourceID, layout, style string) error {
+	if err := Required(title, typeName, query, layout); err != nil {
+		return err
+	}
 	if !json.Valid([]byte(layout)) {
 		return fmt.Errorf("%w: invalid layout JSON", entity.ErrInvalid)
 	}
@@ -32,6 +35,7 @@ func (s *Service) UpdatePanel(ctx context.Context, ns, id, title, typeName, quer
 		return Update(ctx, store, rec, p)
 	})
 }
+
 func (s *Service) Groups(ctx context.Context, ns string) ([]entity.NotificationGroup, error) {
 	groups, err := List[entity.NotificationGroup](ctx, s.Store, ns, "notification-channel-group")
 	if err != nil {
@@ -56,6 +60,7 @@ func (s *Service) Groups(ctx context.Context, ns string) ([]entity.NotificationG
 	}
 	return groups, nil
 }
+
 func (s *Service) Group(ctx context.Context, ns, id string) (entity.NotificationGroup, error) {
 	g, _, err := Read[entity.NotificationGroup](ctx, s.Store, ns, "notification-channel-group", id)
 	if err != nil {
@@ -75,7 +80,11 @@ func (s *Service) Group(ctx context.Context, ns, id string) (entity.Notification
 	}
 	return g, err
 }
+
 func (s *Service) CreateChannel(ctx context.Context, ns, group, destination, settings string) (int64, error) {
+	if err := s.validateNotification(destination, settings); err != nil {
+		return 0, err
+	}
 	var id int64
 	err := s.Store.Within(ctx, func(store contract.Store) error {
 		g, _, err := Read[entity.NotificationGroup](ctx, store, ns, "notification-channel-group", group)
@@ -98,6 +107,7 @@ func (s *Service) CreateChannel(ctx context.Context, ns, group, destination, set
 	})
 	return id, err
 }
+
 func (s *Service) CreateAlert(ctx context.Context, a entity.Alert, sourceID, group string) (string, error) {
 	if err := Required(a.Template, a.RawQuery, sourceID, group); err != nil {
 		return "", err

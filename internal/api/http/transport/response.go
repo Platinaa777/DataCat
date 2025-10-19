@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"sync/atomic"
@@ -73,11 +72,4 @@ func Problem(w http.ResponseWriter, r *http.Request, err error) {
 		detail = "Request timed out"
 	}
 	Write(w, status, map[string]any{"type": "about:blank", "title": http.StatusText(status), "status": status, "detail": detail, "instance": r.URL.Path, "errors": map[string][]string{"General": {detail}}, "requestId": middleware.GetReqID(r.Context())})
-}
-
-func Upstream(err error) error {
-	if err == nil {
-		return nil
-	}
-	return fmt.Errorf("%w: %v", entity.ErrUpstream, err)
 }

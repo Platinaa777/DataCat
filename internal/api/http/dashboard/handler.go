@@ -42,21 +42,7 @@ func (s *Handler) Full(r *http.Request) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	d, _, err := usecases.Read[entity.Dashboard](r.Context(), s.service.Store, ns, "dashboard", transport.Param(r, "id"))
-	if err != nil {
-		return nil, err
-	}
-	panels, err := usecases.List[entity.Panel](r.Context(), s.service.Store, ns, "panel")
-	out := []map[string]any{}
-	for _, p := range panels {
-		if p.DashboardID == d.ID {
-			out = append(out, map[string]any{"id": p.ID, "title": p.Title, "panelType": p.TypeName, "query": p.Query.Query, "layout": p.Layout, "styleConfiguration": p.StyleConfiguration})
-		}
-	}
-	return struct {
-		entity.Dashboard
-		Panels []map[string]any `json:"panels"`
-	}{d, out}, err
+	return s.service.DashboardDetails(r.Context(), ns, transport.Param(r, "id"))
 }
 
 func (s *Handler) Search(r *http.Request) (any, error) {

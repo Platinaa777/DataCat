@@ -27,12 +27,15 @@ type Service struct {
 	Cipher        *secrets.Cipher
 	Now           func() time.Time
 	RemoteSecrets SecretStore
+	Endpoints     contract.EndpointPolicy
 }
 
-func New(store contract.Transactional, cipher *secrets.Cipher) *Service {
-	return &Service{Store: store, Cipher: cipher, Now: func() time.Time { return time.Now().UTC() }}
+func New(store contract.Transactional, cipher *secrets.Cipher, endpoints contract.EndpointPolicy) *Service {
+	return &Service{Store: store, Cipher: cipher, Endpoints: endpoints, Now: func() time.Time { return time.Now().UTC() }}
 }
+
 func ID() string { return uuid.NewString() }
+
 func Required(fields ...string) error {
 	for _, f := range fields {
 		if strings.TrimSpace(f) == "" || len(f) > 65536 {
@@ -41,6 +44,7 @@ func Required(fields ...string) error {
 	}
 	return nil
 }
+
 func Tags(tags []string) []string {
 	out := make([]string, 0, len(tags))
 	seen := map[string]bool{}
@@ -54,6 +58,7 @@ func Tags(tags []string) []string {
 	sort.Strings(out)
 	return out
 }
+
 func Read[T any](ctx context.Context, store contract.Store, ns, kind, id string) (T, entity.Record, error) {
 	var value T
 	r, err := store.Get(ctx, ns, kind, id)
@@ -66,6 +71,7 @@ func Read[T any](ctx context.Context, store contract.Store, ns, kind, id string)
 	}
 	return value, r, nil
 }
+
 func List[T any](ctx context.Context, store contract.Store, ns, kind string) ([]T, error) {
 	records, err := store.List(ctx, ns, kind)
 	if err != nil {
@@ -81,6 +87,7 @@ func List[T any](ctx context.Context, store contract.Store, ns, kind string) ([]
 	}
 	return out, nil
 }
+
 func Create[T any](ctx context.Context, store contract.Store, ns, kind, id, name string, value T) error {
 	data, err := json.Marshal(value)
 	if err != nil {
@@ -88,6 +95,7 @@ func Create[T any](ctx context.Context, store contract.Store, ns, kind, id, name
 	}
 	return store.Create(ctx, entity.Record{Namespace: ns, Kind: kind, ID: id, Name: name, Data: data})
 }
+
 func Update[T any](ctx context.Context, store contract.Store, record entity.Record, value T) error {
 	data, err := json.Marshal(value)
 	if err != nil {
@@ -105,6 +113,7 @@ func (s *Service) CreateNamespace(ctx context.Context, name string) (string, err
 	err := Create(ctx, s.Store, Global, "namespace", id, name, entity.Namespace{ID: id, Name: name})
 	return id, err
 }
+
 func (s *Service) CreateDashboard(ctx context.Context, d entity.Dashboard) (string, error) {
 	if err := Required(d.Name, d.NamespaceID); err != nil {
 		return "", err
@@ -118,6 +127,7 @@ func (s *Service) CreateDashboard(ctx context.Context, d entity.Dashboard) (stri
 	d.Tags = Tags(d.Tags)
 	return d.ID, Create(ctx, s.Store, d.NamespaceID, "dashboard", d.ID, d.Name, d)
 }
+
 func (s *Service) DataSource(ctx context.Context, ns, id string) (entity.DataSource, error) {
 	d, _, err := Read[entity.DataSource](ctx, s.Store, ns, "data-source", id)
 	if err != nil {
@@ -126,7 +136,11 @@ func (s *Service) DataSource(ctx context.Context, ns, id string) (entity.DataSou
 	d.ConnectionString, err = s.Cipher.Open(ns+"/data-source/"+d.ID, d.ConnectionString)
 	return d, err
 }
+
 func (s *Service) CreateDataSource(ctx context.Context, ns string, d entity.DataSource) (string, error) {
+	if err := s.validateConnection(d.ConnectionString); err != nil {
+		return "", err
+	}
 	if err := Required(d.Name, d.Type, d.ConnectionString); err != nil {
 		return "", err
 	}
@@ -153,6 +167,7 @@ func (s *Service) CreateDataSource(ctx context.Context, ns string, d entity.Data
 	})
 	return d.ID, err
 }
+
 func (s *Service) CreatePanel(ctx context.Context, p entity.Panel, sourceID string) (string, error) {
 	if err := Required(p.Title, p.Layout, p.Query.Query, p.TypeName, p.DashboardID); err != nil {
 		return "", err
@@ -175,6 +190,7 @@ func (s *Service) CreatePanel(ctx context.Context, p entity.Panel, sourceID stri
 	})
 	return p.ID, err
 }
+
 func (s *Service) CreateVariable(ctx context.Context, v entity.Variable) (string, error) {
 	if err := Required(v.Placeholder, v.Value); err != nil {
 		return "", err
@@ -194,6 +210,7 @@ func (s *Service) CreateVariable(ctx context.Context, v entity.Variable) (string
 	})
 	return v.ID, err
 }
+
 func (s *Service) ExpandQuery(ctx context.Context, ns, dashboardID, query string) (string, error) {
 	vars, err := List[entity.Variable](ctx, s.Store, ns, "variable")
 	if err != nil {
@@ -212,6 +229,7 @@ func (s *Service) ExpandQuery(ctx context.Context, ns, dashboardID, query string
 	}
 	return replaceQueryVariables(query, values), nil
 }
+
 func (s *Service) PutSecret(ctx context.Context, ns, key, value string) error {
 	if err := Required(key, value); err != nil {
 		return err
@@ -232,6 +250,7 @@ func (s *Service) PutSecret(ctx context.Context, ns, key, value string) error {
 	}
 	return Update(ctx, s.Store, record, ciphertext)
 }
+
 func (s *Service) Secret(ctx context.Context, ns, key string) (string, error) {
 	if s.RemoteSecrets != nil {
 		return s.RemoteSecrets.Get(ctx, ns, key)
@@ -242,6 +261,7 @@ func (s *Service) Secret(ctx context.Context, ns, key string) (string, error) {
 	}
 	return s.Cipher.Open(ns+"/secret/"+key, value)
 }
+
 func (s *Service) Seed(ctx context.Context) error {
 	return s.Store.Within(ctx, func(store contract.Store) error {
 		if _, err := store.Get(ctx, Global, "namespace", "00000000-0000-0000-0000-000000000000"); err == entity.ErrNotFound {

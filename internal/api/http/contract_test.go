@@ -29,7 +29,7 @@ func TestOpenAPIRoutesMatchRouter(t *testing.T) {
 	}
 	parameter := regexp.MustCompile(`\{[^}]+\}`)
 	canonical := func(path string) string { return parameter.ReplaceAllString(path, "{}") }
-	s := bootstrap.NewRouter(nil, &auth.Auth{}, nil, config.Config{}, slog.Default(), nil)
+	s := bootstrap.NewRouter(nil, &auth.Auth{}, nil, config.Config{}, slog.Default())
 	registered := map[string]bool{}
 	if err = chi.Walk(s.Handler().(chi.Routes), func(method, route string, _ http.Handler, _ ...func(http.Handler) http.Handler) error {
 		registered[method+" "+canonical(route)] = true

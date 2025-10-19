@@ -49,8 +49,5 @@ func (s *Handler) Update(r *http.Request) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = usecases.Required(input.Title, input.RawQuery, input.Layout, panelName(input.Type)); err != nil {
-		return nil, err
-	}
 	return nil, s.service.UpdatePanel(r.Context(), ns, transport.Param(r, "id"), input.Title, panelName(input.Type), input.RawQuery, input.DataSourceID, input.Layout, input.StyleConfiguration)
 }
